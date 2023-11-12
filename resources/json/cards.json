@@ -1,0 +1,21 @@
+[
+    {
+        "id": 0,
+        "type": 1,
+        "full_life": 3,
+        "life": 3,
+        "damage": 1,
+        "description":"Strong Man",
+        "path": "resources\\image\\cards\\7_of_clubs.png"
+    },
+    {
+        "id": 1,
+        "type": 2,
+        "full_life": 2,
+        "life": 3,
+        "damage": 2,
+        "description":"Strong Man",
+        "path": "resources\\image\\cards\\7_of_clubs.png"
+    }
+]
+
