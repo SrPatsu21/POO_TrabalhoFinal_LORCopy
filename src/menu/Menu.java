@@ -8,31 +8,28 @@ import javax.swing.JOptionPane;
 
 public class Menu implements DrawListener
 {
-    private Draw draw;
+	private Draw draw;
     private Dimension screen_size;
-    private gameScene game;
-    private int resolution;
+    private GameScene game;
+	private int resolution_x;
+	private int resolution_y;
 
-
-    public Menu() 
+    public Menu ()
     {
-    	this(256);
-    }
-    public Menu (int resolution)
-    {
-        defineScreenSize();
-        setResolution(resolution);
+		defineScreenSize();
+		setResolutionX(getScreenSize().width);
+		setResolutionY(getScreenSize().height);
         setDraw(new Draw());
         getDraw().addListener(this);
         getDraw().setCanvasSize(getScreenSize().width, getScreenSize().height);
-        getDraw().setXscale(0, getResolution());
-        getDraw().setYscale(0, getResolution());
+        getDraw().setXscale(0, getResolutionX());
+        getDraw().setYscale(0, getResolutionY());
         getDraw().enableDoubleBuffering();
         getDraw().clear(Color.GREEN);
         getDraw().setPenColor(Color.RED);
         //font size????
-        
-        draw.text(resolution/2, resolution/2, "click on screen to start", 25);
+
+        draw.text(getResolutionX()/2, getResolutionY()/2, "click on screen to start", 25);
         draw.show();
     }
     
@@ -43,13 +40,26 @@ public class Menu implements DrawListener
 		this.draw = draw;
 	}
 	//resolution
-    public int getResolution() {
-		return resolution;
-	}
-	public void setResolution(int resolution) 
+
+	public int getResolutionX()
 	{
-		this.resolution = resolution;
+		return resolution_x;
 	}
+
+	public void setResolutionX(int resolution_x)
+	{
+		this.resolution_x = resolution_x;
+	}
+
+	public int getResolutionY() {
+		return resolution_y;
+	}
+
+	public void setResolutionY(int resolution_y)
+	{
+		this.resolution_y = resolution_y;
+	}
+
 	//screen size
 	public void setScreenSize(Dimension screen_size) 
 	{
@@ -83,7 +93,8 @@ public class Menu implements DrawListener
     		game.mousePressed(x, y);
     	}else 
     	{
-    		game = new gameScene(getDraw(), getResolution());
+    		game = new GameScene(getDraw(), getScreenSize(), getResolutionX(), getResolutionY());
+			System.out.println("new game");
     	}
     }
     //main

@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import cards.CardGenerator;
 import edu.princeton.cs.algs4.Draw;
-import menu.gameScene;
 
 public class Table 
 {
@@ -24,10 +23,10 @@ public class Table
 		this.slot_pos = slot_pos;
 	}
 
-	public Table(Draw draw, int resolution) 
+	public Table(Draw draw, int resolution_x)
 	{
 		this.draw = draw;
-		COLS_SIZE = resolution/COLSN;
+		COLS_SIZE = resolution_x/COLSN;
 		MARGE = (COLS_SIZE*COLSN/2) - (SLOTSN*COLS_SIZE/2+1);
 	}
 	
@@ -67,7 +66,7 @@ public class Table
 			 {
 				 if(slot.getCard().getImage() != null) 
 				 {
-					 getDraw().picture(((int)(slot.getStart().getX()+slot.getEnd().getX())/2), ((int)(slot.getStart().getY() + slot.getEnd().getY())/2), slot.getCard().getImage());
+					 getDraw().picture((slot.getStart().getX()+slot.getEnd().getX())/2, (slot.getStart().getY() + slot.getEnd().getY())/2, slot.getCard().getImage());
 					 getDraw().show();
 				 }
 			 }
