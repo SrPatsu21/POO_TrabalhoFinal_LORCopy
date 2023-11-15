@@ -1,6 +1,7 @@
 package menu;
 
 import edu.princeton.cs.algs4.Draw;
+import table.Hand;
 import table.Table;
 
 import java.awt.*;
@@ -9,6 +10,7 @@ public class GameScene
 {
     private Draw draw;
     private Table table;
+	private Hand hand;
     private Table enemy_table;
     public final int RESOLUTION_X;
 	public final int RESOLUTION_Y;
@@ -22,7 +24,9 @@ public class GameScene
     	setDraw(draw);
     	getDraw().clear();
     	initTable();
+		initHand();
     	drawTable();
+//		drawHand(getDraw());
     }
     
     public Draw getDraw() 
@@ -54,6 +58,14 @@ public class GameScene
 	{
 		this.enemy_table = enemy_table;
 	}
+	public Hand getHand()
+	{
+		return hand;
+	}
+	public void setHand(Hand hand)
+	{
+		this.hand = hand;
+	}
 	//Table
     private void initTable() 
     {
@@ -68,17 +80,33 @@ public class GameScene
         enemy_table.drawSlot((int) (RESOLUTION_Y -(RESOLUTION_Y * 0.20)), (int) (RESOLUTION_Y - (RESOLUTION_Y * 0.45)));
         getDraw().show();
     }
+	//hand
+	public void initHand()
+	{
+		this.hand = new Hand(RESOLUTION_X, RESOLUTION_Y);
+	}
+	public void drawHand(Draw draw)
+	{
+		for (int i = 0; i < getHand().HAND_SIZE; i++)
+		{
+			if (getHand().getSlot()[i].getCard().getImage() != null)
+			{
+				draw.picture((getHand().getSlot()[i].getEnd().getX()/2), (getHand().getSlot()[i].getEnd().getY()/2), getHand().getSlot()[i].getCard().getImage());
+			}
+		}
+	}
     public void mousePressed(double x, double y) 
     {
-        for(int i = 0; i < getTable().SLOTSN; i++) 
-        {
-        	if(getTable().getSlotPos()[i].getStart().getX() < x && getTable().getSlotPos()[i].getStart().getY() < y) 
-        	{
-        		if(getTable().getSlotPos()[i].getEnd().getX() > x && getTable().getSlotPos()[i].getEnd().getY() > y)
-        		{
-        			getTable().drawImage(getTable().getSlotPos()[i]);
-        		}
-        	}
-        }
-    }
+		//table button
+		for(int i = 0; i < getTable().SLOTSN; i++)
+		{
+			if(getTable().getSlotPos()[i].getStart().getX() < x && getTable().getSlotPos()[i].getStart().getY() < y)
+			{
+				if(getTable().getSlotPos()[i].getEnd().getX() > x && getTable().getSlotPos()[i].getEnd().getY() > y)
+				{
+					getTable().drawImage(getTable().getSlotPos()[i]);
+				}
+			}
+		}
+	}
 }

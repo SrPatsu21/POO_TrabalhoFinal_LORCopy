@@ -16,7 +16,7 @@ public class CardGenerator
 	{
 		this("resources\\json\\cards.json");
 	}
-	public CardGenerator(String path) 
+	private CardGenerator(String path)
 	{
 		try {
 			this.json_array = (JSONArray) new JSONParser().parse(new FileReader(path));
