@@ -1,10 +1,11 @@
 package table;
 
 import cards.Card;
+import dimension_controler.Button;
+import dimension_controler.Vec2;
 
 public class Slot {
-	private Vec2 start;
-	private Vec2 end;
+	private Button button;
 	private Card card;
 
 	public Slot()
@@ -17,34 +18,17 @@ public class Slot {
 	}
 	public Slot(Vec2 start, Vec2 end)
 	{
-		this.start = start;
-		this.end = end;
+		setButton(new Button(start, end));
 	}
-	public Vec2 getStart() 
+	public Button getButton()
 	{
-		return start;
+		return button;
 	}
-	public void setStart(Vec2 start) 
+	public void setButton(Button button)
 	{
-		this.start = start;
+		this.button = button;
 	}
-	public void setStart(int x, int y) 
-	{
-		this.start = new Vec2(x, y);
-	}
-	public Vec2 getEnd() 
-	{
-		return end;
-	}
-	public void setEnd(Vec2 end) 
-	{
-		this.end = end;
-	}
-	public void setEnd(int x, int y) 
-	{
-		this.end = new Vec2(x, y);
-	}
-	public void setCard(Card card) 
+	public void setCard(Card card)
 	{
 		this.card = card;
 	}

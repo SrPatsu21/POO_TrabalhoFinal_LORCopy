@@ -1,6 +1,7 @@
 package table;
 
 import cards.CardGenerator;
+import dimension_controler.Vec2;
 
 public class Hand
 {
@@ -20,6 +21,7 @@ public class Hand
         this(resolution_x, resolution_y);
         setSlot(slot);
         setCardsOnHand(cards_on_hand);
+
     }
 
     public Slot[] getSlot()
@@ -53,12 +55,12 @@ public class Hand
     }
     private void defineSlotPos()
     {
-        int col_size = getHandPos().getStart().getX()*1/HAND_SIZE;
+        int col_size = getHandPos().getButton().getStart().getX()*1/HAND_SIZE;
         for (int i = 0; i < HAND_SIZE; i++)
         {
             this.slot[i] = new Slot(
-                    new Vec2(getHandPos().getStart().getX()+(i*col_size),getHandPos().getStart().getY()),
-                    new Vec2(getHandPos().getStart().getX()+((i+1)*col_size), getHandPos().getEnd().getY())
+                    new Vec2(getHandPos().getButton().getStart().getX()+(i*col_size),getHandPos().getButton().getStart().getY()),
+                    new Vec2(getHandPos().getButton().getStart().getX()+((i+1)*col_size), getHandPos().getButton().getEnd().getY())
             );
         }
     }

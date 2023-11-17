@@ -91,21 +91,18 @@ public class GameScene
 		{
 			if (getHand().getSlot()[i].getCard().getImage() != null)
 			{
-				draw.picture((getHand().getSlot()[i].getEnd().getX()/2), (getHand().getSlot()[i].getEnd().getY()/2), getHand().getSlot()[i].getCard().getImage());
+				draw.picture((getHand().getSlot()[i].getButton().getEnd().getX()/2), (getHand().getSlot()[i].getButton().getEnd().getY()/2), getHand().getSlot()[i].getCard().getImage());
 			}
 		}
 	}
-    public void mousePressed(double x, double y) 
+    public void mousePressed(double x, double y)
     {
 		//table button
 		for(int i = 0; i < getTable().SLOTSN; i++)
 		{
-			if(getTable().getSlotPos()[i].getStart().getX() < x && getTable().getSlotPos()[i].getStart().getY() < y)
+			if(getTable().getSlotPos()[i].getButton().isInside((int)x, (int)y))
 			{
-				if(getTable().getSlotPos()[i].getEnd().getX() > x && getTable().getSlotPos()[i].getEnd().getY() > y)
-				{
 					getTable().drawImage(getTable().getSlotPos()[i]);
-				}
 			}
 		}
 	}

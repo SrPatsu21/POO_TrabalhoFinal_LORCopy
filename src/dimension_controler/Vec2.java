@@ -1,4 +1,4 @@
-package table;
+package dimension_controler;
 
 public class Vec2 
 {

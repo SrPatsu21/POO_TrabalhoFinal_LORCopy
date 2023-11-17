@@ -1,22 +1,20 @@
 package dimension_controler;
 
-import table.Vec2;
-
-public class button
+public class Button
 {
     private Vec2 start;
     private Vec2 end;
 
-    public button()
+    public Button()
     {
 
     }
-    public button(Vec2 start, Vec2 end)
+    public Button(Vec2 start, Vec2 end)
     {
         setStart(start);
         setEnd(end);
     }
-    public button(int x_start, int y_start, int x_end, int y_end)
+    public Button(int x_start, int y_start, int x_end, int y_end)
     {
         this(new Vec2(x_start,y_start), new Vec2(x_end, y_end));
     }

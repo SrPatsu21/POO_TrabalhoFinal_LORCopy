@@ -66,7 +66,7 @@ public class Table
 			 {
 				 if(slot.getCard().getImage() != null) 
 				 {
-					 getDraw().picture((slot.getStart().getX()+slot.getEnd().getX())/2, (slot.getStart().getY() + slot.getEnd().getY())/2, slot.getCard().getImage());
+					 getDraw().picture(slot.getButton().getCenter().getX(), slot.getButton().getCenter().getY(), slot.getCard().getImage());
 					 getDraw().show();
 				 }
 			 }
