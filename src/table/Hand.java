@@ -36,7 +36,6 @@ public class Hand
     {
         return cards_on_hand;
     }
-
     public void setSlot(Slot[] slot)
     {
         this.slot = slot;

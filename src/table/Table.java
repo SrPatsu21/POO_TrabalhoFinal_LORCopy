@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import cards.CardGenerator;
 import dimension_controler.Button;
+import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
 
 public class Table 
@@ -17,19 +18,19 @@ public class Table
     private Slot [] slot_pos = new Slot[SLOTSN];
 	private Button button;
 
-	public Table(Draw draw, int resolution_x, int y0, int y1)
-	{
+	public Table(Draw draw, int resolution_x, int y0, int y1) {
 		this(draw, resolution_x);
 		setButton(new Button(MARGE, y0, MARGE+COLS_SIZE*(SLOTSN), y1));
 		defineSlotPos();
 	}
-	Table(Draw draw, int resolution_x)
-	{
+
+	Table(Draw draw, int resolution_x) {
 		setDraw(draw);
 		COLS_SIZE = resolution_x/COLSN;
 		MARGE = (COLS_SIZE*COLSN/2) - (SLOTSN*COLS_SIZE/2+1);
 	}
-	
+
+	//getter setter
     public Draw getDraw() {
 		return draw;
 	}
@@ -54,46 +55,50 @@ public class Table
 		this.button = button;
 	}
 
-	public void drawSlot(int y0, int y1)
-    {
-		this.draw.setPenColor(Color.RED);
-		for(int pos = 0; pos < SLOTSN; pos++)
-    	{
-			// x1, y1, x2, y2
-	        getDraw().line(MARGE+(pos*COLS_SIZE), y0, MARGE+(pos*COLS_SIZE), y1);
-			getDraw().line(MARGE+((pos+1)*COLS_SIZE), y0, MARGE+((pos+1)*COLS_SIZE), y1);
-			getDraw().line(MARGE+(pos*COLS_SIZE), y0, MARGE+((pos+1)*COLS_SIZE), y0);
-			getDraw().line(MARGE+(pos*COLS_SIZE), y1, MARGE+((pos+1)*COLS_SIZE), y1);
-    	}
-    }
-    public void defineSlotPos()
-    {
-    	for(int pos = 0; pos < SLOTSN; pos++)
-    	{
-    		getSlotPos()[pos] = new Slot(MARGE+(pos*COLS_SIZE), getButton().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getEnd().getY());
-    		setCardOnSlot(pos, 1);
-    	}
-    }
-	 public void drawImage(Slot slot) 
-	 {
-		 if(slot != null) 
-		 {
-			 if(slot.getCard() != null) 
-			 {
-				 if(slot.getCard().getImage() != null) 
-				 {
-					 getDraw().picture(slot.getButton().getCenter().getX(), slot.getButton().getCenter().getY(), slot.getCard().getImage());
-					 getDraw().show();
-				 }
-			 }
-		 }
-	 }
-	 public void setCardOnSlot(int pos, int card_id) 
-	 {
-		 if(getSlotPos()[pos] != null) 
-		 {
-			 getSlotPos()[pos].setCard(card_gen.getCard(card_id));
+	//position on map
+	private void defineSlotPos() {
+		for(int pos = 0; pos < SLOTSN; pos++) {
+			getSlotPos()[pos] = new Slot(MARGE+(pos*COLS_SIZE), getButton().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getEnd().getY());
+		}
+	}
+	//client
+	public void clearTable(Color background) {
+		getDraw().setPenColor(background);
+		getDraw().filledPolygon(new double[]{getButton().getStart().getX(), getButton().getEnd().getX()}, new double[]{getButton().getStart().getY(), getButton().getStart().getY()});
+		getDraw().show();
+	}
 
-		 }
-	 }
+	public void drawSlot(Color color)
+    {
+		this.draw.setPenColor(color);
+		for(int pos = 0; pos < SLOTSN; pos++) {
+			// x1, y1, x2, y2
+			getDraw().line(MARGE+(pos*COLS_SIZE), getButton().getStart().getY(), MARGE+(pos*COLS_SIZE), getButton().getEnd().getY());
+			getDraw().line(MARGE+((pos+1)*COLS_SIZE), getButton().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getEnd().getY());
+			getDraw().line(MARGE+(pos*COLS_SIZE), getButton().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getStart().getY());
+			getDraw().line(MARGE+(pos*COLS_SIZE), getButton().getEnd().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getEnd().getY());
+		}
+		getDraw().show();
+    }
+	public void drawCards()
+	{
+		for (int i = 0; i < SLOTSN; i++)
+		{
+			if(getSlotPos()[i] != null)
+			{
+				if(getSlotPos()[i].getCard() != null)
+				{
+					getSlotPos()[i].getCard().drawCard(getDraw(), getSlotPos()[i].getButton().getStart(), getSlotPos()[i].getButton().getEnd());
+				}
+			}
+		}
+		getDraw().show();
+	}
+
+	public void drawTable(Color background, Color lines)
+	{
+		clearTable(background);
+		drawSlot(lines);
+		drawCards();
+	}
 }

@@ -44,5 +44,6 @@ public class TurnButton extends Button
         draw.line(getStart().getX(), getEnd().getY(), getEnd().getX(), getEnd().getY());
         draw.line(getStart().getX(), getStart().getY(), getStart().getX(), getEnd().getY());
         draw.line(getEnd().getX(), getStart().getY(), getEnd().getX(), getEnd().getY());
+        draw.show();
     }
 }
