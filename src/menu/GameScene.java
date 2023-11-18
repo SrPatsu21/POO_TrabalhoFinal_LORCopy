@@ -1,5 +1,6 @@
 package menu;
 
+import dimension_controler.TurnButton;
 import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
 import table.Hand;
@@ -16,45 +17,57 @@ public class GameScene
     public final int RESOLUTION_X;
 	public final int RESOLUTION_Y;
 	public final Dimension DIMENSION;
-    
-    public GameScene(Draw draw, Dimension dimension, int resolution_x, int resolution_y)
+	public static TurnButton turn;
+    public GameScene(Draw draw, Dimension dimension, int resolution_x, int resolution_y){
+		this(draw, dimension, resolution_x, resolution_y, 0);
+	}
+    public GameScene(Draw draw, Dimension dimension, int resolution_x, int resolution_y, int turn)
     {
 		this.DIMENSION = dimension;
 		this.RESOLUTION_X = resolution_x;
 		this.RESOLUTION_Y = resolution_y;
+		setTurn(new TurnButton(
+				new Vec2((int)(resolution_x-(resolution_x*0.15)), (int)(resolution_y-(resolution_y*0.45))),
+				new Vec2((int)(resolution_x-(resolution_x*0.05)), (int)(resolution_y-(resolution_y*0.55))),
+				turn)
+		);
     	setDraw(draw);
     	getDraw().clear();
     	initTable();
 		initHand();
     	drawTable();
 		drawHand(getDraw());
+		getTurn().drawButton(getDraw());
     }
     
     public Draw getDraw() 
     {
 		return draw;
 	}
-
 	public void setDraw(Draw draw) 
 	{
 		this.draw = draw;
 	}
-
+	public static TurnButton getTurn()
+	{
+		return turn;
+	}
+	public static void setTurn(TurnButton turn)
+	{
+		GameScene.turn = turn;
+	}
 	public Table getTable() 
 	{
 		return table;
 	}
-
-	public void setTable(Table table) 
+	public void setTable(Table table)
 	{
 		this.table = table;
 	}
-
 	public Table getEnemyTable() 
 	{
 		return enemy_table;
 	}
-
 	public void setEnemyTable(Table enemy_table) 
 	{
 		this.enemy_table = enemy_table;
