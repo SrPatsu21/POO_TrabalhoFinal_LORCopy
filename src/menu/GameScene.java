@@ -1,5 +1,6 @@
 package menu;
 
+import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
 import table.Hand;
 import table.Table;
@@ -26,7 +27,7 @@ public class GameScene
     	initTable();
 		initHand();
     	drawTable();
-//		drawHand(getDraw());
+		drawHand(getDraw());
     }
     
     public Draw getDraw() 
@@ -66,13 +67,16 @@ public class GameScene
 	{
 		this.hand = hand;
 	}
+	//clear draw
+	public void clearArea(Vec2 start, Vec2 end)
+	{
+		getDraw().filledPolygon(new double[]{start.getX(), end.getX()}, new double[]{start.getY(), end.getY()});
+	}
 	//Table
     private void initTable() 
     {
-        table = new Table(draw, RESOLUTION_X);
-        enemy_table = new Table(draw, RESOLUTION_X);
-        table.defineSlotPos((int) (RESOLUTION_Y - (RESOLUTION_Y * 0.80)), (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.55)));
-        enemy_table.defineSlotPos((int) (RESOLUTION_Y -(RESOLUTION_Y * 0.20)), (int) (RESOLUTION_Y - (RESOLUTION_Y * 0.45)));
+        table = new Table(draw, RESOLUTION_X, (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.80)), (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.55)));
+        enemy_table = new Table(draw, RESOLUTION_X, (int) (RESOLUTION_Y -(RESOLUTION_Y * 0.20)), (int) (RESOLUTION_Y - (RESOLUTION_Y * 0.45)));
     }
     public void drawTable() 
     {
@@ -89,7 +93,7 @@ public class GameScene
 	{
 		for (int i = 0; i < getHand().HAND_SIZE; i++)
 		{
-			if (getHand().getSlot()[i].getCard().getImage() != null)
+			if (getHand().getSlot()[i].getCard() != null)
 			{
 				draw.picture((getHand().getSlot()[i].getButton().getEnd().getX()/2), (getHand().getSlot()[i].getButton().getEnd().getY()/2), getHand().getSlot()[i].getCard().getImage());
 			}
@@ -98,12 +102,16 @@ public class GameScene
     public void mousePressed(double x, double y)
     {
 		//table button
-		for(int i = 0; i < getTable().SLOTSN; i++)
+		if (getTable().getButton().isInside(x, y))
 		{
-			if(getTable().getSlotPos()[i].getButton().isInside((int)x, (int)y))
+			for(int i = 0; i < getTable().SLOTSN; i++)
 			{
+				if(getTable().getSlotPos()[i].getButton().isInside(x, y))
+				{
 					getTable().drawImage(getTable().getSlotPos()[i]);
+				}
 			}
 		}
+
 	}
 }

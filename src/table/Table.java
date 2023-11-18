@@ -3,6 +3,7 @@ package table;
 import java.awt.Color;
 
 import cards.CardGenerator;
+import dimension_controler.Button;
 import edu.princeton.cs.algs4.Draw;
 
 public class Table 
@@ -14,18 +15,17 @@ public class Table
     public final int COLS_SIZE;
     public final int MARGE;
     private Slot [] slot_pos = new Slot[SLOTSN];
+	private Button button;
 
-	public Slot[] getSlotPos() {
-		return slot_pos;
-	}
-
-	public void setSlot_pos(Slot[] slot_pos) {
-		this.slot_pos = slot_pos;
-	}
-
-	public Table(Draw draw, int resolution_x)
+	public Table(Draw draw, int resolution_x, int y0, int y1)
 	{
-		this.draw = draw;
+		this(draw, resolution_x);
+		setButton(new Button(MARGE, y0, MARGE+COLS_SIZE*(SLOTSN), y1));
+		defineSlotPos();
+	}
+	Table(Draw draw, int resolution_x)
+	{
+		setDraw(draw);
 		COLS_SIZE = resolution_x/COLSN;
 		MARGE = (COLS_SIZE*COLSN/2) - (SLOTSN*COLS_SIZE/2+1);
 	}
@@ -38,11 +38,27 @@ public class Table
 		this.draw = draw;
 	}
 
-	public void drawSlot(int y0, int y1) 
+	public Slot[] getSlotPos() {
+		return slot_pos;
+	}
+
+	public void setSlot_pos(Slot[] slot_pos) {
+		this.slot_pos = slot_pos;
+	}
+
+	public Button getButton() {
+		return button;
+	}
+
+	public void setButton(Button button) {
+		this.button = button;
+	}
+
+	public void drawSlot(int y0, int y1)
     {
-    	for(int pos = 0; pos < SLOTSN; pos++)
+		this.draw.setPenColor(Color.RED);
+		for(int pos = 0; pos < SLOTSN; pos++)
     	{
-	        this.draw.setPenColor(Color.RED);
 			// x1, y1, x2, y2
 	        getDraw().line(MARGE+(pos*COLS_SIZE), y0, MARGE+(pos*COLS_SIZE), y1);
 			getDraw().line(MARGE+((pos+1)*COLS_SIZE), y0, MARGE+((pos+1)*COLS_SIZE), y1);
@@ -50,11 +66,11 @@ public class Table
 			getDraw().line(MARGE+(pos*COLS_SIZE), y1, MARGE+((pos+1)*COLS_SIZE), y1);
     	}
     }
-    public void defineSlotPos(int y0, int y1) 
+    public void defineSlotPos()
     {
     	for(int pos = 0; pos < SLOTSN; pos++)
     	{
-    		getSlotPos()[pos] = new Slot(MARGE+(pos*COLS_SIZE), y0, MARGE+((pos+1)*COLS_SIZE), y1);
+    		getSlotPos()[pos] = new Slot(MARGE+(pos*COLS_SIZE), getButton().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getEnd().getY());
     		setCardOnSlot(pos, 1);
     	}
     }
@@ -77,6 +93,7 @@ public class Table
 		 if(getSlotPos()[pos] != null) 
 		 {
 			 getSlotPos()[pos].setCard(card_gen.getCard(card_id));
+
 		 }
 	 }
 }

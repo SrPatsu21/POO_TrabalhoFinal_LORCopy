@@ -36,6 +36,10 @@ public class Button
     }
     public boolean isInside(int x, int y)
     {
+        return this.isInside((double)x, (double)y);
+    }
+    public boolean isInside(double x, double y)
+    {
         if ((getStart().getX() < x && getEnd().getX() > x) && (getStart().getY() < y && getEnd().getY() > y))
         {
             return true;

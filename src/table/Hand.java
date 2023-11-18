@@ -1,36 +1,36 @@
 package table;
 
 import cards.CardGenerator;
+import dimension_controler.Button;
 import dimension_controler.Vec2;
 
 public class Hand
 {
     public final int HAND_SIZE = 10;
     private Slot[] slot = new Slot [HAND_SIZE];
-    private Slot hand_pos = new Slot();
+    private Button button;
     private int cards_on_hand = 0;
     private final CardGenerator CARD_GENERATOR = new CardGenerator();
 
     public Hand(int resolution_x, int resolution_y)
     {
         defineHandPos(resolution_x, resolution_y);
-        defineSlotPos();
+        defineButton();
     }
     public Hand(int resolution_x, int resolution_y,Slot[] slot, int cards_on_hand)
     {
         this(resolution_x, resolution_y);
         setSlot(slot);
         setCardsOnHand(cards_on_hand);
-
     }
 
     public Slot[] getSlot()
     {
         return slot;
     }
-    public Slot getHandPos()
+    public Button getButton()
     {
-        return hand_pos;
+        return button;
     }
     public int getCardsOnHand()
     {
@@ -41,9 +41,9 @@ public class Hand
     {
         this.slot = slot;
     }
-    public void setHandPos(Slot hand_pos)
+    public void setButton(Button hand_pos)
     {
-        this.hand_pos = hand_pos;
+        this.button = hand_pos;
     }
     public void setCardsOnHand(int cards_on_hand)
     {
@@ -51,16 +51,16 @@ public class Hand
     }
     private void defineHandPos(int resolution_x, int resolution_y)
     {
-        this.hand_pos = new Slot(new Vec2((int)(resolution_x-(resolution_x*0.1)), 0), new Vec2((int)(resolution_x-(resolution_x*0.9)), (int)(resolution_y-(resolution_y*0.2))));
+        this.button = new Button(new Vec2((int)(resolution_x-(resolution_x*0.1)), 0), new Vec2((int)(resolution_x-(resolution_x*0.9)), (int)(resolution_y-(resolution_y*0.2))));
     }
-    private void defineSlotPos()
+    private void defineButton()
     {
-        int col_size = getHandPos().getButton().getStart().getX()*1/HAND_SIZE;
+        int col_size = getButton().getStart().getX()*1/HAND_SIZE;
         for (int i = 0; i < HAND_SIZE; i++)
         {
             this.slot[i] = new Slot(
-                    new Vec2(getHandPos().getButton().getStart().getX()+(i*col_size),getHandPos().getButton().getStart().getY()),
-                    new Vec2(getHandPos().getButton().getStart().getX()+((i+1)*col_size), getHandPos().getButton().getEnd().getY())
+                    new Vec2(getButton().getStart().getX()+(i*col_size), getButton().getStart().getY()),
+                    new Vec2(getButton().getStart().getX()+((i+1)*col_size), getButton().getEnd().getY())
             );
         }
     }
