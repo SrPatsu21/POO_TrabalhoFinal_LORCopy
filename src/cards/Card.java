@@ -179,11 +179,19 @@ public class Card
 	public void  drawCard(Draw draw, Vec2 start, Vec2 end) {
 		int diffx = end.getX() - start.getX();
 		int diffy = end.getY() - start.getY();
+		//line
+		draw.setPenColor(Color.BLACK);
+		draw.line(start.getX(), start.getY(), end.getX(),  start.getY());
+		draw.line(start.getX(), end.getY(), end.getX(),  end.getY());
+		draw.line(start.getX(), start.getY(), start.getX(),  end.getY());
+		draw.line(end.getX(), start.getY(), end.getX(),  end.getY());
+		//text
+		draw.text(start.getX()+ diffx/2, start.getY()+diffy/2, getDescription());
+		//life
 		draw.setPenColor(Color.RED);
 		draw.text(start.getX()+ diffx*0.02, end.getY()-diffy*0.02, String.valueOf((int)getActualLife()));
+		//damage
 		draw.setPenColor(Color.BLUE);
 		draw.text(start.getX()+ diffx*0.98, end.getY()-diffy*0.98, String.valueOf((int)getActualDamage()));
-		draw.setPenColor(Color.BLACK);
-		draw.text(start.getX()+ diffx/2, end.getY()-diffy/2, getDescription());
 	}
 }

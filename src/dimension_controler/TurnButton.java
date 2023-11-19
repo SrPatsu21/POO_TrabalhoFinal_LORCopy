@@ -18,20 +18,16 @@ public class TurnButton extends Button
     }
     public TurnButton(int x_start, int y_start, int x_end, int y_end, int turn)
     {
-        super(new Vec2(x_start,y_start), new Vec2(x_end, y_end));
-        setTurn(turn);
+        this(new Vec2(x_start,y_start), new Vec2(x_end, y_end), turn);
     }
-
     public int getTurn()
     {
         return turn;
     }
-
     public void setTurn(int turn)
     {
         this.turn = turn;
     }
-
     public void passTurn()
     {
         this.turn++;
