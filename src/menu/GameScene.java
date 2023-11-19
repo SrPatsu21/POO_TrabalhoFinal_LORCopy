@@ -1,6 +1,5 @@
 package menu;
 
-import cards.Card;
 import dimension_controler.TurnButton;
 import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
@@ -21,6 +20,7 @@ public class GameScene
 	public final int RESOLUTION_Y;
 	public final Dimension DIMENSION;
 	public final Color BACKGROUND = Color.green;
+	public final Color HANDOCOLOR = Color.RED;
 	public static TurnButton turn;
 
     public GameScene(Draw draw, Dimension dimension, int resolution_x, int resolution_y){
@@ -42,7 +42,7 @@ public class GameScene
 		initHand();
 		getTable().drawTable(BACKGROUND, Color.BLACK);
 		getEnemyTable().drawTable(BACKGROUND, Color.BLACK);
-		getHand().drawHand(BACKGROUND);
+		getHand().drawHand(HANDOCOLOR);
 		getTurn().drawButton(getDraw());
     }
 
@@ -109,14 +109,24 @@ public class GameScene
 	//Table
     private void initTable() 
     {
-        table = new Table(draw, RESOLUTION_X, (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.80)), (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.55)));
-        enemy_table = new Table(draw, RESOLUTION_X, (int) (RESOLUTION_Y -(RESOLUTION_Y * 0.20)), (int) (RESOLUTION_Y - (RESOLUTION_Y * 0.45)));
+        table = new Table(draw, RESOLUTION_X, (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.70)), (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.45)));
+        enemy_table = new Table(draw, RESOLUTION_X, (int) (RESOLUTION_Y -(RESOLUTION_Y * 0.10)), (int) (RESOLUTION_Y - (RESOLUTION_Y * 0.35)));
     }
+	public void redrawTable()
+	{
+		getTable().clearTable(BACKGROUND);
+		getTable().drawTable(BACKGROUND, Color.RED);
+	}
 
 	//Hand
 	public void initHand()
 	{
 		this.hand = new Hand(getDraw(), RESOLUTION_X, RESOLUTION_Y);
+	}
+	public void redrawHand()
+	{
+		getHand().clearHand(BACKGROUND);
+		getHand().drawHand(HANDOCOLOR);
 	}
 
 	//clear draw
@@ -139,13 +149,15 @@ public class GameScene
 					if(getSelectedCard() != null) {
 						getTable().getSlotPos()[i].setCard(getSelectedCard().getCard());
 						clearArea(getSelectedCard().getButton().getStart(), getSelectedCard().getButton().getEnd(), BACKGROUND);
+						getHand().removeCard(getSelectedCard().getCard());
 						setSelectedCard(null);
-						getTable().clearTable(BACKGROUND);
+						redrawTable();
+						redrawHand();
 					}
 				}
 			}
-			//hand button
-		}else if (getHand().getButton().isInside((int)x, (int)y))
+		//hand button
+		}else if (getHand().getHand_pos().isInside((int)x, (int)y))
 		{
 			for(int i = 0; i < getHand().HAND_SIZE; i++)
 			{
@@ -157,9 +169,10 @@ public class GameScene
 		}else if(getTurn().isInside((int)x, (int)y))
 		{
 			getHand().addCard(1);
-			getHand().drawHand(BACKGROUND);
+			redrawHand();
 			getTurn().passTurn();
 		}
+//remover tardiamente, muito util em testes
 //		System.out.println(getHand().getButton().isInside(x, y) + " " + getHand().getButton().getStart().getX()+ "/" + getHand().getButton().getStart().getY() + " x " + x + "/" + y);
 	}
 }

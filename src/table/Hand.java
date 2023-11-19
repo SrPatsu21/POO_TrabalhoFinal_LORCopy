@@ -1,5 +1,6 @@
 package table;
 
+import cards.Card;
 import cards.CardGenerator;
 import dimension_controler.Button;
 import dimension_controler.Vec2;
@@ -12,11 +13,11 @@ public class Hand
     public final int HAND_SIZE = 10;
     private Slot[] slot = new Slot [HAND_SIZE];
     private Draw draw;
-    private Button button;
+    private Button hand_pos;
     private int cards_on_hand = 0;
     public final int COLS_SIZE;
     public final int MARGE;
-    public final int COLSN = 16;
+    public final int COLSN = 20;
     private final CardGenerator CARD_GENERATOR = new CardGenerator();
 
     public Hand(Draw draw,int resolution_x, int resolution_y)
@@ -46,9 +47,9 @@ public class Hand
     {
         return slot;
     }
-    public Button getButton()
+    public Button getHand_pos()
     {
-        return button;
+        return hand_pos;
     }
     public int getCardsOnHand()
     {
@@ -58,9 +59,9 @@ public class Hand
     {
         this.slot = slot;
     }
-    public void setButton(Button hand_pos)
+    public void setHand_pos(Button hand_pos)
     {
-        this.button = hand_pos;
+        this.hand_pos = hand_pos;
     }
     public void setCardsOnHand(int cards_on_hand)
     {
@@ -68,15 +69,15 @@ public class Hand
     }
     private void defineHandPos(int resolution_x, int resolution_y)
     {
-        this.button = new Button(new Vec2((int)(resolution_x*0.1), 0), new Vec2((int)(resolution_x*0.9), (int)(resolution_y*0.2)));
+        this.hand_pos = new Button(new Vec2((int)(resolution_x*0.1), (int)(resolution_y*0.1)), new Vec2((int)(resolution_x*0.9), (int)(resolution_y*0.25)));
     }
     private void defineSlots()
     {
         for (int i = 0; i < HAND_SIZE; i++)
         {
             this.slot[i] = new Slot(
-                    new Vec2(MARGE+(i*COLS_SIZE), getButton().getStart().getY()),
-                    new Vec2(MARGE+((i+1)*COLS_SIZE), getButton().getEnd().getY())
+                    new Vec2(MARGE+(i*COLS_SIZE), getHand_pos().getStart().getY()),
+                    new Vec2(MARGE+((i+1)*COLS_SIZE), getHand_pos().getEnd().getY())
             );
         }
     }
@@ -98,11 +99,29 @@ public class Hand
             this.cards_on_hand++;
         }
     }
+    public void removeCard(int i)
+    {
+        getSlot()[i].setCard(null);
+    }
+    public void removeCard(Card card)
+    {
+        for (int i = 0; i < HAND_SIZE; i++)
+        {
+            if (getSlot()[i] != null)
+            {
+                if (getSlot()[i].getCard() == card)
+                {
+                    getSlot()[i].setCard(null);
+                    i=HAND_SIZE;
+                }
+            }
+        }
+    }
     //cliente
-    public void clearTable(Color background)
+    public void clearHand(Color background)
     {
         getDraw().setPenColor(background);
-        getDraw().filledPolygon(new double[]{getButton().getStart().getX(), getButton().getStart().getX(), getButton().getEnd().getX(), getButton().getEnd().getX()}, new double[]{getButton().getStart().getY(), getButton().getEnd().getY(), getButton().getEnd().getY(), getButton().getStart().getY()});
+        getDraw().filledPolygon(new double[]{getHand_pos().getStart().getX(), getHand_pos().getStart().getX(), getHand_pos().getEnd().getX(), getHand_pos().getEnd().getX()}, new double[]{getHand_pos().getStart().getY(), getHand_pos().getEnd().getY(), getHand_pos().getEnd().getY(), getHand_pos().getStart().getY()});
         getDraw().show();
     }
     public void drawCards()
@@ -124,18 +143,17 @@ public class Hand
         this.draw.setPenColor(color);
         for(int pos = 0; pos < HAND_SIZE; pos++) {
             // x1, y1, x2, y2
-            getDraw().line(MARGE+(pos*COLS_SIZE), getButton().getStart().getY(), MARGE+(pos*COLS_SIZE), getButton().getEnd().getY());
-            getDraw().line(MARGE+((pos+1)*COLS_SIZE), getButton().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getEnd().getY());
-            getDraw().line(MARGE+(pos*COLS_SIZE), getButton().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getStart().getY());
-            getDraw().line(MARGE+(pos*COLS_SIZE), getButton().getEnd().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getEnd().getY());
+            getDraw().line(MARGE+(pos*COLS_SIZE), getHand_pos().getStart().getY(), MARGE+(pos*COLS_SIZE), getHand_pos().getEnd().getY());
+            getDraw().line(MARGE+((pos+1)*COLS_SIZE), getHand_pos().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getHand_pos().getEnd().getY());
+            getDraw().line(MARGE+(pos*COLS_SIZE), getHand_pos().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getHand_pos().getStart().getY());
+            getDraw().line(MARGE+(pos*COLS_SIZE), getHand_pos().getEnd().getY(), MARGE+((pos+1)*COLS_SIZE), getHand_pos().getEnd().getY());
         }
         getDraw().show();
     }
 
-    public void drawHand(Color background)
+    public void drawHand(Color slots)
     {
-        clearTable(background);
-        drawSlots(Color.RED);
+        drawSlots(slots);
         drawCards();
         getDraw().show();
     }

@@ -5,7 +5,7 @@
         "full_life": 3,
         "life": 3,
         "damage": 1,
-        "description":"Strong Man",
+        "description":"Ricardo Marcilio",
         "path": "resources\\image\\cards\\7_of_clubs.png"
     },
     {
@@ -14,7 +14,7 @@
         "full_life": 2,
         "life": 3,
         "damage": 2,
-        "description":"Strong Man",
+        "description":"Thiago Braga",
         "path": "resources\\image\\cards\\7_of_clubs.png"
     }
 ]
