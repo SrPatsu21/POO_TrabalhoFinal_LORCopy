@@ -21,11 +21,11 @@ public class Hand
 
     public Hand(Draw draw,int resolution_x, int resolution_y)
     {
-        setDraw(draw);
-        defineHandPos(resolution_x, resolution_y);
-        defineButton();
         COLS_SIZE = resolution_x/COLSN;
         MARGE = (COLS_SIZE*COLSN/2) - (HAND_SIZE*COLS_SIZE/2+1);
+        setDraw(draw);
+        defineHandPos(resolution_x, resolution_y);
+        defineSlots();
     }
     public Hand(Draw draw, int resolution_x, int resolution_y,Slot[] slot, int cards_on_hand)
     {
@@ -68,16 +68,15 @@ public class Hand
     }
     private void defineHandPos(int resolution_x, int resolution_y)
     {
-        this.button = new Button(new Vec2((int)(resolution_x-(resolution_x*0.1)), 0), new Vec2((int)(resolution_x-(resolution_x*0.9)), (int)(resolution_y-(resolution_y*0.2))));
+        this.button = new Button(new Vec2((int)(resolution_x*0.1), 0), new Vec2((int)(resolution_x*0.9), (int)(resolution_y*0.2)));
     }
-    private void defineButton()
+    private void defineSlots()
     {
-        int col_size = getButton().getStart().getX()*1/HAND_SIZE;
         for (int i = 0; i < HAND_SIZE; i++)
         {
             this.slot[i] = new Slot(
-                    new Vec2(getButton().getStart().getX()+(i*col_size), getButton().getStart().getY()),
-                    new Vec2(getButton().getStart().getX()+((i+1)*col_size), getButton().getEnd().getY())
+                    new Vec2(MARGE+(i*COLS_SIZE), getButton().getStart().getY()),
+                    new Vec2(MARGE+((i+1)*COLS_SIZE), getButton().getEnd().getY())
             );
         }
     }
@@ -89,8 +88,11 @@ public class Hand
             {
                 if (getSlot()[i] != null)
                 {
-                    this.slot[i].setCard(CARD_GENERATOR.getCard(id));
-                    i = HAND_SIZE;
+                    if (getSlot()[i].getCard() == null)
+                    {
+                        this.slot[i].setCard(CARD_GENERATOR.getCard(id));
+                        i = HAND_SIZE;
+                    }
                 }
             }
             this.cards_on_hand++;
@@ -100,7 +102,7 @@ public class Hand
     public void clearTable(Color background)
     {
         getDraw().setPenColor(background);
-        getDraw().filledPolygon(new double[]{getButton().getStart().getX(), getButton().getEnd().getX()}, new double[]{getButton().getStart().getY(), getButton().getStart().getY()});
+        getDraw().filledPolygon(new double[]{getButton().getStart().getX(), getButton().getStart().getX(), getButton().getEnd().getX(), getButton().getEnd().getX()}, new double[]{getButton().getStart().getY(), getButton().getEnd().getY(), getButton().getEnd().getY(), getButton().getStart().getY()});
         getDraw().show();
     }
     public void drawCards()

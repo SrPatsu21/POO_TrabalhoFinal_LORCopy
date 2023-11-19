@@ -179,6 +179,9 @@ public class Card
 	public void  drawCard(Draw draw, Vec2 start, Vec2 end) {
 		int diffx = end.getX() - start.getX();
 		int diffy = end.getY() - start.getY();
+		//backgrund
+		draw.setPenColor(Color.WHITE);
+		draw.filledPolygon(new double[]{start.getX(), start.getX(), end.getX(), end.getX()}, new double[]{start.getY(), end.getY(), end.getY(), start.getY()});
 		//line
 		draw.setPenColor(Color.BLACK);
 		draw.line(start.getX(), start.getY(), end.getX(),  start.getY());
@@ -189,9 +192,9 @@ public class Card
 		draw.text(start.getX()+ diffx/2, start.getY()+diffy/2, getDescription());
 		//life
 		draw.setPenColor(Color.RED);
-		draw.text(start.getX()+ diffx*0.02, end.getY()-diffy*0.02, String.valueOf((int)getActualLife()));
+		draw.text(start.getX()+ diffx*0.05, end.getY()-diffy*0.05, String.valueOf((int)getActualLife()));
 		//damage
-		draw.setPenColor(Color.BLUE);
-		draw.text(start.getX()+ diffx*0.98, end.getY()-diffy*0.98, String.valueOf((int)getActualDamage()));
+		draw.setPenColor(Color.GREEN);
+		draw.text(start.getX()+ diffx*0.95, end.getY()-diffy*0.05, String.valueOf((int)getActualDamage()));
 	}
 }
