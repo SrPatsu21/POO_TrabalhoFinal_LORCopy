@@ -62,16 +62,18 @@ public class Table
 		}
 	}
 	//client
-	public void clearTable(Color background) {
+	public void clearTable(Color background)
+	{
 		getDraw().setPenColor(background);
-		getDraw().filledPolygon(new double[]{getButton().getStart().getX(), getButton().getEnd().getX()}, new double[]{getButton().getStart().getY(), getButton().getStart().getY()});
+		getDraw().filledPolygon(new double[]{getButton().getStart().getX(), getButton().getStart().getX(), getButton().getEnd().getX(), getButton().getEnd().getX()}, new double[]{getButton().getStart().getY(), getButton().getEnd().getY(), getButton().getEnd().getY(), getButton().getStart().getY()});
 		getDraw().show();
 	}
 
 	public void drawSlot(Color color)
     {
 		this.draw.setPenColor(color);
-		for(int pos = 0; pos < SLOTSN; pos++) {
+		for(int pos = 0; pos < SLOTSN; pos++)
+		{
 			// x1, y1, x2, y2
 			getDraw().line(MARGE+(pos*COLS_SIZE), getButton().getStart().getY(), MARGE+(pos*COLS_SIZE), getButton().getEnd().getY());
 			getDraw().line(MARGE+((pos+1)*COLS_SIZE), getButton().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getEnd().getY());

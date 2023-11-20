@@ -59,6 +59,10 @@ public class Hand
     {
         this.slot = slot;
     }
+    public void setSlot(int i, Slot slot)
+    {
+        this.slot[i] = slot;
+    }
     public void setHand_pos(Button hand_pos)
     {
         this.hand_pos = hand_pos;
@@ -92,16 +96,17 @@ public class Hand
                     if (getSlot()[i].getCard() == null)
                     {
                         this.slot[i].setCard(CARD_GENERATOR.getCard(id));
+                        this.cards_on_hand++;
                         i = HAND_SIZE;
                     }
                 }
             }
-            this.cards_on_hand++;
         }
     }
     public void removeCard(int i)
     {
         getSlot()[i].setCard(null);
+        this.cards_on_hand--;
     }
     public void removeCard(Card card)
     {
@@ -112,6 +117,7 @@ public class Hand
                 if (getSlot()[i].getCard() == card)
                 {
                     getSlot()[i].setCard(null);
+                    this.cards_on_hand--;
                     i=HAND_SIZE;
                 }
             }

@@ -1,5 +1,6 @@
 package menu;
 
+import cards.Card;
 import dimension_controler.TurnButton;
 import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
@@ -147,12 +148,21 @@ public class GameScene
 				if(getTable().getSlotPos()[i].getButton().isInside(x, y))
 				{
 					if(getSelectedCard() != null) {
-						getTable().getSlotPos()[i].setCard(getSelectedCard().getCard());
+						//clear
 						clearArea(getSelectedCard().getButton().getStart(), getSelectedCard().getButton().getEnd(), BACKGROUND);
-						getHand().removeCard(getSelectedCard().getCard());
+						//operation
+//						getHand().removeCard(getSelectedCard().getCard());
+//						getTable().getSlotPos()[i].setCard(getSelectedCard().getCard());
+						Card aux = getSelectedCard().getCard();
+						getSelectedCard().setCard(getTable().getSlotPos()[i].getCard());
+						getTable().getSlotPos()[i].setCard(aux);
 						setSelectedCard(null);
+						//draw
 						redrawTable();
 						redrawHand();
+					}else
+					{
+						setSelectedCard(getTable().getSlotPos()[i]);
 					}
 				}
 			}
@@ -163,7 +173,7 @@ public class GameScene
 			{
 				if(getHand().getSlot()[i].getButton().isInside(x, y))
 				{
-					setSelectedCard(getHand().getSlot()[i]);
+						setSelectedCard(getHand().getSlot()[i]);
 				}
 			}
 		}else if(getTurn().isInside((int)x, (int)y))
