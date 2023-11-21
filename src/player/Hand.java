@@ -1,4 +1,4 @@
-package table;
+package player;
 
 import cards.Card;
 import cards.CardGenerator;
@@ -27,12 +27,6 @@ public class Hand
         setDraw(draw);
         defineHandPos(resolution_x, resolution_y);
         defineSlots();
-    }
-    public Hand(Draw draw, int resolution_x, int resolution_y,Slot[] slot, int cards_on_hand)
-    {
-        this(draw, resolution_x, resolution_y);
-        setSlot(slot);
-        setCardsOnHand(cards_on_hand);
     }
 
     public Draw getDraw()
@@ -157,8 +151,9 @@ public class Hand
         getDraw().show();
     }
 
-    public void drawHand(Color slots)
+    public void drawHand(Color slots, Color background)
     {
+        clearHand(background);
         drawSlots(slots);
         drawCards();
         getDraw().show();

@@ -1,4 +1,4 @@
-package table;
+package player;
 
 import cards.Card;
 import dimension_controler.Button;

@@ -1,10 +1,9 @@
-package table;
+package player;
 
 import java.awt.Color;
 
 import cards.CardGenerator;
 import dimension_controler.Button;
-import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
 
 public class Table 
