@@ -20,12 +20,12 @@ public class Hand
     public final int COLSN = 20;
     private final CardGenerator CARD_GENERATOR = new CardGenerator();
 
-    public Hand(Draw draw,int resolution_x, int resolution_y)
+    public Hand(Draw draw,int resolution_x, int y0, int y1)
     {
         COLS_SIZE = resolution_x/COLSN;
         MARGE = (COLS_SIZE*COLSN/2) - (HAND_SIZE*COLS_SIZE/2+1);
         setDraw(draw);
-        defineHandPos(resolution_x, resolution_y);
+        defineHandPos(resolution_x, y0, y1);
         defineSlots();
     }
 
@@ -65,9 +65,9 @@ public class Hand
     {
         this.cards_on_hand = cards_on_hand;
     }
-    private void defineHandPos(int resolution_x, int resolution_y)
+    private void defineHandPos(int resolution_x, int y0, int y1)
     {
-        this.hand_pos = new Button(new Vec2((int)(resolution_x*0.1), (int)(resolution_y*0.1)), new Vec2((int)(resolution_x*0.9), (int)(resolution_y*0.25)));
+        this.hand_pos = new Button(new Vec2((int)(resolution_x*0.1), y0), new Vec2((int)(resolution_x*0.9), y1));
     }
     private void defineSlots()
     {

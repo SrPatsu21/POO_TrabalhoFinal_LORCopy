@@ -87,7 +87,7 @@ public class Player
     //Hand
     public void initHand()
     {
-        this.hand = new Hand(getDraw(), RESOLUTION_X, RESOLUTION_Y);
+        this.hand = new Hand(getDraw(), RESOLUTION_X, (int)(RESOLUTION_Y*0.1), (int)(RESOLUTION_Y*0.25));
     }
     public void redrawHand()
     {

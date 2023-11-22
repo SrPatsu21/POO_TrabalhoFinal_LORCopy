@@ -15,16 +15,15 @@ public class Enemy extends Player
     public void initEnergy() {
         super.initEnergy();
     }
-//    protected void initTable()
-//    {
-//        super.table = new Table(getDraw(), RESOLUTION_X, (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.70)), (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.45)));
-//    }
+    public void initTable()
+    {
+        super.table = new Table(getDraw(), RESOLUTION_X, (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.70)), (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.45)));
+    }
     @Override
     public void initHand()
     {
-        this.hand = new Hand(getDraw(), RESOLUTION_X, RESOLUTION_Y);
+        this.hand = new Hand(getDraw(), RESOLUTION_X, (int)(RESOLUTION_Y*0.1), (int)(RESOLUTION_Y*0.25));
     }
-
     @Override
     public void redraw()
     {
