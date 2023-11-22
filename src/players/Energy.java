@@ -1,4 +1,4 @@
-package player;
+package players;
 
 import dimension_controler.Button;
 import dimension_controler.Vec2;
@@ -48,9 +48,9 @@ public class Energy
         this.draw = draw;
     }
     //add round
-    public void addEnergy()
+    public void addEnergy(int round)
     {
-        this.energy = Math.min(getEnergy()+1, MAX_ENERGY);
+        this.energy = Math.min(getEnergy()+round, MAX_ENERGY);
     }
     //client
     public void clearEnergy(Color background)

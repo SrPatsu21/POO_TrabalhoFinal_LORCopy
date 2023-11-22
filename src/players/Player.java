@@ -1,4 +1,4 @@
-package player;
+package players;
 
 import edu.princeton.cs.algs4.Draw;
 
@@ -12,11 +12,11 @@ public class Player
     public final Color BACKGROUND;
     public final Color HANDOCOLOR;
     public final int MAX_ENERGY = 10;
-    private Table table;
-    private Hand hand;
-    private Energy energy;
-    private Draw draw;
-    private boolean still_play;
+    protected Table table;
+    protected Hand hand;
+    protected Energy energy;
+    protected Draw draw;
+    protected boolean still_play;
 
     public Player(Draw draw, Dimension dimension, int resolution_x, int resolution_y, Color background, Color handcolor)
     {
@@ -26,9 +26,6 @@ public class Player
         this.BACKGROUND = background;
         this.HANDOCOLOR = handcolor;
         setDraw(draw);
-        initTable();
-        initHand();
-        initEnergy();
     }
 
     public Draw getDraw()
@@ -70,8 +67,15 @@ public class Player
     public void setStill_play(boolean still_play) {
         this.still_play = still_play;
     }
+    //init
+    public void initPlayer()
+    {
+        initTable();
+        initHand();
+        initEnergy();
+    }
     //Table
-    private void initTable()
+    public void initTable()
     {
         this.table = new Table(getDraw(), RESOLUTION_X, (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.70)), (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.45)));
     }
@@ -100,19 +104,19 @@ public class Player
     }
     public void receiveEnergyBeforeRound(int round)
     {
-        redrawEnergy();
-        getEnergy().addEnergy();
+        getEnergy().addEnergy(round);
         redrawEnergy();
     }
     //still can play
     public boolean verifyIfCanPlay()
     {
-
+        boolean b = true;
 
         if(getEnergy().getEnergy() == 0)
         {
-            return false;
+            b = false;
         }
+        return b;
     }
     //client
     public void redraw()

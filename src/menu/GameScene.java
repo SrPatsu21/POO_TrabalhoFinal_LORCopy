@@ -4,9 +4,9 @@ import cards.Card;
 import dimension_controler.RoundButton;
 import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
-import player.Player;
-import player.Slot;
-import player.Table;
+import players.Player;
+import players.Slot;
+import players.Table;
 
 import java.awt.*;
 
@@ -21,28 +21,34 @@ public class GameScene
     private Player player;
     private Table enemy_table;
 	private Slot selected_card;
-	public static RoundButton round;
+	public static RoundButton round_button;
+	private int turn_cont = 0;
 
     public GameScene(Draw draw, Dimension dimension, int resolution_x, int resolution_y){
-		this(draw, dimension, resolution_x, resolution_y, 0);
+		this(draw, dimension, resolution_x, resolution_y, 0, 2);
 	}
-    public GameScene(Draw draw, Dimension dimension, int resolution_x, int resolution_y, int turn)
+    public GameScene(Draw draw, Dimension dimension, int resolution_x, int resolution_y, int turnN, int turn_cont)
     {
 		this.DIMENSION = dimension;
 		this.RESOLUTION_X = resolution_x;
 		this.RESOLUTION_Y = resolution_y;
 		setDraw(draw);
 		getDraw().clear(BACKGROUND);
-		setRound(new RoundButton(getDraw(),
+		setRoundButton(new RoundButton(getDraw(),
 				new Vec2((int)(resolution_x-(resolution_x*0.15)), (int)(resolution_y-(resolution_y*0.55))),
 				new Vec2((int)(resolution_x-(resolution_x*0.05)), (int)(resolution_y-(resolution_y*0.45))),
-				turn, BACKGROUND)
+				turnN, BACKGROUND)
 		);
+		setTurnCont(turn_cont);
 		setPlayer(new Player(draw, dimension, resolution_x, resolution_y, BACKGROUND, HANDOCOLOR));
-		getPlayer().redraw();
+		getPlayer().initPlayer();
+		roundController();
+
+		//make
 		enemy_table = new Table(draw, RESOLUTION_X, (int) (RESOLUTION_Y -(RESOLUTION_Y * 0.10)), (int) (RESOLUTION_Y - (RESOLUTION_Y * 0.35)));
 		getEnemyTable().drawTable(BACKGROUND, Color.BLACK);
-		roundController();
+		//client
+		getPlayer().redraw();
     }
 
 	//gettter setter
@@ -54,13 +60,13 @@ public class GameScene
 	{
 		this.draw = draw;
 	}
-	public static RoundButton getRound()
+	public static RoundButton getRoundButton()
 	{
-		return round;
+		return round_button;
 	}
-	public static void setRound(RoundButton round)
+	public static void setRoundButton(RoundButton round_button)
 	{
-		GameScene.round = round;
+		GameScene.round_button = round_button;
 	}
 	public Player getPlayer()
 	{
@@ -78,7 +84,6 @@ public class GameScene
 	{
 		this.enemy_table = enemy_table;
 	}
-
 	public Slot getSelectedCard()
 	{
 		return selected_card;
@@ -87,16 +92,39 @@ public class GameScene
 	{
 		this.selected_card = selected_card;
 	}
+	public int getTurnCont()
+	{
+		return turn_cont;
+	}
+	public void setTurnCont(int turn_cont)
+	{
+		this.turn_cont = turn_cont;
+	}
 
 	//round
-	public void roundController()
-	{
-		getPlayer().receiveEnergyBeforeRound(getRound().getTurn());
-		getRound().drawRound("a");
+	public void roundController() {
+		if (getTurnCont() == 0)
+		{
+			setTurnCont(1);
+			getRoundButton().redrawRound("pass");
+		}else if(getTurnCont() == 1) {
+			setTurnCont(2);
+			getRoundButton().redrawRound("fight");
+		} else if (getTurnCont() == 2)
+		{
+			setTurnCont(0);
+			getPlayer().receiveEnergyBeforeRound(getRoundButton().getRound());
+			//remake before
+			getPlayer().getHand().addCard(1);
+			getPlayer().getHand().addCard(1);
+			//
+			getRoundButton().passRound();
+			getRoundButton().redrawRound("pass");
+		}
 	}
+
 	//clear draw
-	public void clearArea(Vec2 start, Vec2 end, Color color)
-	{
+	public void clearArea(Vec2 start, Vec2 end, Color color) {
 		getDraw().setPenColor(color);
 		getDraw().filledPolygon(new double[]{start.getX(), end.getX()}, new double[]{start.getY(), end.getY()});
 	}
@@ -105,12 +133,9 @@ public class GameScene
     public void mousePressed(double x, double y)
     {
 		//table button
-		if (getPlayer().getTable().getButton().isInside((int)x, (int)y))
-		{
-			for(int i = 0; i < getPlayer().getTable().SLOTSN; i++)
-			{
-				if(getPlayer().getTable().getSlotPos()[i].getButton().isInside(x, y))
-				{
+		if (getPlayer().getTable().getButton().isInside((int)x, (int)y)) {
+			for(int i = 0; i < getPlayer().getTable().SLOTSN; i++) {
+				if(getPlayer().getTable().getSlotPos()[i].getButton().isInside(x, y)) {
 					if(getSelectedCard() != null) {
 						//clear
 						clearArea(getSelectedCard().getButton().getStart(), getSelectedCard().getButton().getEnd(), BACKGROUND);
@@ -122,28 +147,22 @@ public class GameScene
 						getPlayer().getHand().verifySlots();
 						//draw
 						getPlayer().redraw();
-					}else
-					{
+					}else {
 						setSelectedCard(getPlayer().getTable().getSlotPos()[i]);
 					}
 				}
 			}
-		//hand button
-		}else if (getPlayer().getHand().getHand_pos().isInside((int)x, (int)y))
-		{
-			for(int i = 0; i < getPlayer().getHand().HAND_SIZE; i++)
-			{
-				if(getPlayer().getHand().getSlot()[i].getButton().isInside(x, y))
-				{
-						setSelectedCard(getPlayer().getHand().getSlot()[i]);
+			//hand button
+		}else if (getPlayer().getHand().getHand_pos().isInside((int)x, (int)y)) {
+			for(int i = 0; i < getPlayer().getHand().HAND_SIZE; i++) {
+				if(getPlayer().getHand().getSlot()[i].getButton().isInside(x, y)) {
+					setSelectedCard(getPlayer().getHand().getSlot()[i]);
 				}
 			}
-		//round
-		}else if(getRound().isInside((int)x, (int)y))
-		{
-			getPlayer().getHand().addCard(1);
+			//round
+		}else if(getRoundButton().isInside((int)x, (int)y)) {
+			roundController();
 			getPlayer().redraw();
-			getRound().passTurn();
 		}
 //remover tardiamente, muito util em testes
 //		System.out.println(getHand().getButton().isInside(x, y) + " " + getHand().getButton().getStart().getX()+ "/" + getHand().getButton().getStart().getY() + " x " + x + "/" + y);
