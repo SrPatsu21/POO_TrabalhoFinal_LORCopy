@@ -21,7 +21,7 @@ public class Energy
     {
         MAX_ENERGY = max_energy;
         setDraw(draw);
-        setButton( new Button(new Vec2(resolution_x*90, resolution_y*30), new Vec2(resolution_x*80, resolution_y*40)));
+        setButton( new Button(new Vec2((int)(resolution_x*0.1), (int)(resolution_y*0.3)), new Vec2((int)(resolution_x*0.2), (int)(resolution_y*0.4  ))));
     }
     public Button getButton()
     {
@@ -62,11 +62,12 @@ public class Energy
     public void drawEnergy(Color energy_color)
     {
         getDraw().setPenColor(energy_color);
-        getDraw().text(getButton().getCenter().getX(), getButton().getCenter().getY(), "a"+getEnergy());
-        getDraw().line(getButton().getStart().getX(), getButton().getStart().getY(), getButton().getStart().getX(), getButton().getStart().getY());
+        getDraw().text(getButton().getCenter().getX(), getButton().getCenter().getY()*1.03, "Energy:");
+        getDraw().text(getButton().getCenter().getX(), getButton().getCenter().getY()*0.97, ""+getEnergy());
+        getDraw().line(getButton().getStart().getX(), getButton().getStart().getY(), getButton().getEnd().getX(), getButton().getStart().getY());
+        getDraw().line(getButton().getStart().getX(), getButton().getEnd().getY(), getButton().getEnd().getX(), getButton().getEnd().getY());
         getDraw().line(getButton().getStart().getX(), getButton().getStart().getY(), getButton().getStart().getX(), getButton().getEnd().getY());
-        getDraw().line(getButton().getStart().getX(), getButton().getStart().getY(), getButton().getStart().getX(), getButton().getEnd().getY());
-        getDraw().line(getButton().getStart().getX(), getButton().getEnd().getY(), getButton().getStart().getX(), getButton().getEnd().getY());
+        getDraw().line(getButton().getEnd().getX(), getButton().getStart().getY(), getButton().getEnd().getX(), getButton().getEnd().getY());
         getDraw().show();
     }
     public void redrawEnergy(Color background, Color energy_color)

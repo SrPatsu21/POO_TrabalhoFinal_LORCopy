@@ -16,6 +16,7 @@ public class Player
     private Hand hand;
     private Energy energy;
     private Draw draw;
+    private boolean still_play;
 
     public Player(Draw draw, Dimension dimension, int resolution_x, int resolution_y, Color background, Color handcolor)
     {
@@ -62,7 +63,13 @@ public class Player
     {
         this.energy = energy;
     }
-
+    public boolean isStill_play()
+    {
+        return still_play;
+    }
+    public void setStill_play(boolean still_play) {
+        this.still_play = still_play;
+    }
     //Table
     private void initTable()
     {
@@ -93,15 +100,21 @@ public class Player
     }
     public void receiveEnergyBeforeRound(int round)
     {
-        drawEnergy();
+        redrawEnergy();
         getEnergy().addEnergy();
         redrawEnergy();
     }
-    public void drawEnergy()
+    //still can play
+    public boolean verifyIfCanPlay()
     {
-            
+
+
+        if(getEnergy().getEnergy() == 0)
+        {
+            return false;
+        }
     }
-    //player redraw
+    //client
     public void redraw()
     {
         redrawTable();
