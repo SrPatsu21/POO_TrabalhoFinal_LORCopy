@@ -11,8 +11,10 @@ public class Player
     public final Dimension DIMENSION;
     public final Color BACKGROUND;
     public final Color HANDOCOLOR;
+    public final int MAX_ENERGY = 10;
     private Table table;
     private Hand hand;
+    private Energy energy;
     private Draw draw;
 
     public Player(Draw draw, Dimension dimension, int resolution_x, int resolution_y, Color background, Color handcolor)
@@ -25,6 +27,7 @@ public class Player
         setDraw(draw);
         initTable();
         initHand();
+        initEnergy();
     }
 
     public Draw getDraw()
@@ -51,6 +54,14 @@ public class Player
     {
         this.table = table;
     }
+    public Energy getEnergy()
+    {
+        return energy;
+    }
+    public void setEnergy(Energy energy)
+    {
+        this.energy = energy;
+    }
 
     //Table
     private void initTable()
@@ -71,10 +82,30 @@ public class Player
     {
         getHand().drawHand(HANDOCOLOR, BACKGROUND);
     }
+    //Energy
+    public void initEnergy()
+    {
+        this.energy = new Energy(getDraw(), RESOLUTION_X, RESOLUTION_Y, MAX_ENERGY);
+    }
+    public void redrawEnergy()
+    {
+        getEnergy().redrawEnergy(BACKGROUND, Color.YELLOW);
+    }
+    public void receiveEnergyBeforeRound(int round)
+    {
+        drawEnergy();
+        getEnergy().addEnergy();
+        redrawEnergy();
+    }
+    public void drawEnergy()
+    {
+            
+    }
     //player redraw
     public void redraw()
     {
         redrawTable();
         redrawHand();
+        redrawEnergy();
     }
 }

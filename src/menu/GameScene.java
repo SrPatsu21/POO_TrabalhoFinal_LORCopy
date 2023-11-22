@@ -4,7 +4,6 @@ import cards.Card;
 import dimension_controler.RoundButton;
 import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
-import player.Hand;
 import player.Player;
 import player.Slot;
 import player.Table;
@@ -92,6 +91,7 @@ public class GameScene
 	//round
 	public void roundController()
 	{
+		getPlayer().receiveEnergyBeforeRound(getRound().getTurn());
 		getRound().drawRound("a");
 	}
 	//clear draw
@@ -119,6 +119,7 @@ public class GameScene
 						getSelectedCard().setCard(getPlayer().getTable().getSlotPos()[i].getCard());
 						getPlayer().getTable().getSlotPos()[i].setCard(aux);
 						setSelectedCard(null);
+						getPlayer().getHand().verifySlots();
 						//draw
 						getPlayer().redraw();
 					}else

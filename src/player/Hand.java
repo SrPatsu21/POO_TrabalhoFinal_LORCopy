@@ -79,6 +79,18 @@ public class Hand
             );
         }
     }
+    public void verifySlots()
+    {
+        int k = 0;
+        for (int i = 0; i > HAND_SIZE; i++)
+        {
+            if (getSlot()[i] != null)
+            {
+                k++;
+            }
+        }
+        setCardsOnHand(k);
+    }
     public void addCard(int id)
     {
         if (cards_on_hand < HAND_SIZE)
@@ -140,7 +152,7 @@ public class Hand
     }
     public void drawSlots(Color color)
     {
-        this.draw.setPenColor(color);
+        getDraw().setPenColor(color);
         for(int pos = 0; pos < HAND_SIZE; pos++) {
             // x1, y1, x2, y2
             getDraw().line(MARGE+(pos*COLS_SIZE), getHand_pos().getStart().getY(), MARGE+(pos*COLS_SIZE), getHand_pos().getEnd().getY());

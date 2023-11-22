@@ -17,13 +17,15 @@ public class Table
     private Slot [] slot_pos = new Slot[SLOTSN];
 	private Button button;
 
-	public Table(Draw draw, int resolution_x, int y0, int y1) {
+	public Table(Draw draw, int resolution_x, int y0, int y1)
+	{
 		this(draw, resolution_x);
 		setButton(new Button(MARGE, y0, MARGE+COLS_SIZE*(SLOTSN), y1));
 		defineSlotPos();
 	}
 
-	Table(Draw draw, int resolution_x) {
+	Table(Draw draw, int resolution_x)
+	{
 		setDraw(draw);
 		COLS_SIZE = resolution_x/COLSN;
 		MARGE = (COLS_SIZE*COLSN/2) - (SLOTSN*COLS_SIZE/2+1);
@@ -70,7 +72,7 @@ public class Table
 
 	public void drawSlot(Color color)
     {
-		this.draw.setPenColor(color);
+		getDraw().setPenColor(color);
 		for(int pos = 0; pos < SLOTSN; pos++)
 		{
 			// x1, y1, x2, y2
