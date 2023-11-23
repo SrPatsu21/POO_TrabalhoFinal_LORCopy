@@ -5,8 +5,8 @@
         "full_life": 3,
         "life": 3,
         "damage": 1,
-        "description":"Ricardo Marcilio",
-        "path": "resources\\image\\cards\\7_of_clubs.png"
+        "energy_cost": 2,
+        "description":"Ricardo Marcilio"
     },
     {
         "id": 1,
@@ -14,8 +14,8 @@
         "full_life": 2,
         "life": 3,
         "damage": 2,
-        "description":"Thiago Braga",
-        "path": "resources\\image\\cards\\7_of_clubs.png"
+        "energy_cost": 2,
+        "description":"Thiago Braga"
     }
 ]
 

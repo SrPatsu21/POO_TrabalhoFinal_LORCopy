@@ -31,10 +31,11 @@ public class CardGenerator
 	{
 		if(json_array != null) 
 		{
+			//	public Card(int id, byte type, byte full_life, byte life, byte damage, byte energy_cost, String description)
 			JSONObject json = (JSONObject) json_array.get(id);
 			return new Card(id, Byte.parseByte(json.get("type").toString()), Byte.parseByte(json.get("full_life").toString()),
 					Byte.parseByte(json.get("life").toString()), Byte.parseByte(json.get("damage").toString()),
-					(String) json.get("description"), (String) json.get("path"));
+					Byte.parseByte(json.get("energy_cost").toString()), (String) json.get("description"));
 		}else
 		{
 			return null;

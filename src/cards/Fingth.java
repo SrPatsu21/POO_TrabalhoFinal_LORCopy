@@ -1,8 +1,6 @@
 package cards;
 
 import players.Player;
-import players.Slot;
-import players.Table;
 
 public class Fingth
 {
@@ -45,7 +43,7 @@ public class Fingth
         int life = getPlayer().getPlayerStatus().getLife();
         if (card.getActualLife() < damage)
         {
-            card.reciveDamage(damage);
+            card.receiveDamage(damage);
         }else
         {
             card.kill();
