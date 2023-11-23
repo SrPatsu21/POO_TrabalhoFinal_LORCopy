@@ -183,10 +183,14 @@ public class Card
 	//draw cards
 	public void  drawCard(Draw draw, Vec2 start, Vec2 end)
 	{
+		this.drawCard(draw, start, end, Color.WHITE);
+	}
+	public void  drawCard(Draw draw, Vec2 start, Vec2 end, Color background)
+	{
 		int diffx = end.getX() - start.getX();
 		int diffy = end.getY() - start.getY();
 		//backgrund
-		draw.setPenColor(Color.WHITE);
+		draw.setPenColor(background);
 		draw.filledPolygon(new double[]{start.getX(), start.getX(), end.getX(), end.getX()}, new double[]{start.getY(), end.getY(), end.getY(), start.getY()});
 		//line
 		draw.setPenColor(Color.BLACK);

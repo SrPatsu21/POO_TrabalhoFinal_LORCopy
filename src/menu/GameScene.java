@@ -20,7 +20,8 @@ public class GameScene
     private Draw draw;
     private Player player;
 	private Enemy enemy;
-	private Slot selected_card;
+	private Slot selected_hand_card;
+	private Slot selected_table_card;
 	public static RoundButton round_button;
 	private int turn_cont = 0;
 	private Fingth fight;
@@ -78,14 +79,6 @@ public class GameScene
 	{
 		this.player = player;
 	}
-	public Slot getSelectedCard()
-	{
-		return selected_card;
-	}
-	public void setSelectedCard(Slot selected_card)
-	{
-		this.selected_card = selected_card;
-	}
 	public int getTurnCont()
 	{
 		return turn_cont;
@@ -109,6 +102,23 @@ public class GameScene
 	public void setFight(Fingth fight)
 	{
 		this.fight = fight;
+	}
+
+	public Slot getSelectedHandCard()
+	{
+		return selected_hand_card;
+	}
+	public void setSelectedHandCard(Slot selected_hand_card)
+	{
+		this.selected_hand_card = selected_hand_card;
+	}
+	public Slot getSelectedTableCard()
+	{
+		return selected_table_card;
+	}
+	public void setSelectedTableCard(Slot selected_table_card)
+	{
+		this.selected_table_card = selected_table_card;
 	}
 
 	//round
@@ -186,32 +196,66 @@ public class GameScene
 			if (getPlayer().getTable().getButton().isInside((int)x, (int)y)) {
 				for(int i = 0; i < getPlayer().getTable().SLOTSN; i++) {
 					if(getPlayer().getTable().getSlotPos()[i].getButton().isInside(x, y)) {
-						if(getSelectedCard() != null) {
-							//clear
-							clearArea(getSelectedCard().getButton().getStart(), getSelectedCard().getButton().getEnd(), BACKGROUND);
-							//operation
-							Card aux = getSelectedCard().getCard();
-							getSelectedCard().setCard(getPlayer().getTable().getSlotPos()[i].getCard());
+						if(getSelectedTableCard() != null)
+						{
+							//swap
+							Card aux = getSelectedTableCard().getCard();
+							getSelectedTableCard().setCard(getPlayer().getTable().getSlotPos()[i].getCard());
 							getPlayer().getTable().getSlotPos()[i].setCard(aux);
-							setSelectedCard(null);
+
+							setSelectedTableCard(null);
+							setSelectedHandCard(null);
 							getPlayer().getHand().verifySlots();
-							//draw
-							getPlayer().redraw();
-						}else {
-							setSelectedCard(getPlayer().getTable().getSlotPos()[i]);
+							redraw();
+						}
+						else if(getSelectedHandCard() != null)
+						{
+							if (getPlayer().getPlayerStatus().getEnergy() > getSelectedHandCard().getCard().getEnergy_cost())
+							{
+								getPlayer().getPlayerStatus().removeEnergy(getSelectedHandCard().getCard().getEnergy_cost());
+								getPlayer().getTable().getSlotPos()[i].setCard(getSelectedHandCard().getCard());
+								getSelectedHandCard().setCard(null);
+								setSelectedHandCard(null);
+								setSelectedTableCard(null);
+							}
+							redraw();
+						}
+						else
+						{
+							setSelectedTableCard(getPlayer().getTable().getSlotPos()[i]);
+							getPlayer().getTable().redrawOneCard(getPlayer().getTable().getSlotPos()[i], Color.YELLOW);
 						}
 					}
 				}
-				//hand button
-			}else if (getPlayer().getHand().getHand_pos().isInside((int)x, (int)y)) {
-				for(int i = 0; i < getPlayer().getHand().HAND_SIZE; i++) {
-					if(getPlayer().getHand().getSlot()[i].getButton().isInside(x, y)) {
-						setSelectedCard(getPlayer().getHand().getSlot()[i]);
+			}
+			//hand button
+			else if (getPlayer().getHand().getHand_pos().isInside((int)x, (int)y))
+			{
+
+				if (getSelectedTableCard() != null)
+				{
+					setSelectedHandCard(null);
+					setSelectedTableCard(null);
+					redraw();
+				}
+				else if (getTurnCont() != 2)
+				{
+					for(int i = 0; i < getPlayer().getHand().HAND_SIZE; i++) {
+						if(getPlayer().getHand().getSlot()[i].getButton().isInside(x, y) && getPlayer().getHand().getSlot()[i].getCard() != null)
+						{
+							redraw();
+							setSelectedHandCard(getPlayer().getHand().getSlot()[i]);
+							getPlayer().getHand().redrawOneCard(getSelectedHandCard(), Color.YELLOW);
+						}
 					}
 				}
-				//round
-			}else if(getRoundButton().isInside((int)x, (int)y)) {
+			}
+			//button round
+			else if(getRoundButton().isInside((int)x, (int)y))
+			{
 				roundController();
+				setSelectedHandCard(null);
+				setSelectedTableCard(null);
 				redraw();
 			}
 		}else

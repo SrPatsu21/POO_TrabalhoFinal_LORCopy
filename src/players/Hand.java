@@ -150,6 +150,17 @@ public class Hand
         }
         getDraw().show();
     }
+    public void redrawOneCard(Slot slot)
+    {
+        slot.getCard().drawCard(getDraw(), slot.getButton().getStart(), slot.getButton().getEnd());
+        getDraw().show();
+    }
+    public void redrawOneCard(Slot slot, Color background)
+    {
+        slot.getCard().drawCard(getDraw(), slot.getButton().getStart(), slot.getButton().getEnd(), background);
+        getDraw().show();
+    }
+
     public void drawSlots(Color color)
     {
         getDraw().setPenColor(color);

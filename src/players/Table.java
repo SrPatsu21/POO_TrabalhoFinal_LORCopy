@@ -97,6 +97,16 @@ public class Table
 		}
 		getDraw().show();
 	}
+	public void redrawOneCard(Slot slot)
+	{
+		slot.getCard().drawCard(getDraw(), slot.getButton().getStart(), slot.getButton().getEnd());
+		getDraw().show();
+	}
+	public void redrawOneCard(Slot slot, Color background)
+	{
+		slot.getCard().drawCard(getDraw(), slot.getButton().getStart(), slot.getButton().getEnd(), background);
+		getDraw().show();
+	}
 
 	public void drawTable(Color background, Color lines)
 	{

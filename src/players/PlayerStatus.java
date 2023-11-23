@@ -69,9 +69,13 @@ public class PlayerStatus
         setLife(Math.max(getLife()+heal, 0));
     }
     //add round
-    public void addEnergy(int round)
+    public void addEnergy(int amount)
     {
-        this.energy = Math.min(getEnergy()+round, MAX_ENERGY);
+        this.energy = Math.min(getEnergy()+amount, MAX_ENERGY);
+    }
+    public void removeEnergy(int amount)
+    {
+        this.energy = Math.max(getEnergy()-amount, 0);
     }
     //client
     public void clearEnergy(Color background)
