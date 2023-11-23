@@ -10,10 +10,9 @@ public class Player
     public final int RESOLUTION_Y;
     public final Color BACKGROUND;
     public final Color HANDOCOLOR;
-    public final int MAX_ENERGY = 10;
     protected Table table;
     protected Hand hand;
-    protected Energy energy;
+    protected PlayerStatus playerStatus;
     protected Draw draw;
     protected boolean still_play;
 
@@ -50,13 +49,13 @@ public class Player
     {
         this.table = table;
     }
-    public Energy getEnergy()
+    public PlayerStatus getPlayerStatus()
     {
-        return energy;
+        return playerStatus;
     }
-    public void setEnergy(Energy energy)
+    public void setPlayerStatus(PlayerStatus playerStatus)
     {
-        this.energy = energy;
+        this.playerStatus = playerStatus;
     }
     public boolean isStill_play()
     {
@@ -70,7 +69,7 @@ public class Player
     {
         initTable();
         initHand();
-        initEnergy();
+        initPlayerStatus();
     }
     //Table
     public void initTable()
@@ -92,17 +91,17 @@ public class Player
         getHand().drawHand(HANDOCOLOR, BACKGROUND);
     }
     //Energy
-    public void initEnergy()
+    public void initPlayerStatus()
     {
-        this.energy = new Energy(getDraw(), MAX_ENERGY, (int)(RESOLUTION_X*0.1), (int)(RESOLUTION_Y*0.3), (int)(RESOLUTION_X*0.2), (int)(RESOLUTION_Y*0.4));
+        this.playerStatus = new PlayerStatus(getDraw(), (int)(RESOLUTION_X*0.1), (int)(RESOLUTION_Y*0.3), (int)(RESOLUTION_X*0.2), (int)(RESOLUTION_Y*0.4));
     }
     public void redrawEnergy()
     {
-        getEnergy().redrawEnergy(BACKGROUND, Color.YELLOW);
+        getPlayerStatus().redrawEnergy(BACKGROUND, Color.YELLOW);
     }
     public void receiveEnergyBeforeRound(int round)
     {
-        getEnergy().addEnergy(round);
+        getPlayerStatus().addEnergy(round);
         redrawEnergy();
     }
     //still can play
@@ -110,7 +109,7 @@ public class Player
     {
         boolean b = true;
 
-        if(getEnergy().getEnergy() == 0)
+        if(getPlayerStatus().getEnergy() == 0)
         {
             b = false;
         }

@@ -7,7 +7,6 @@ import edu.princeton.cs.algs4.Draw;
 import players.Enemy;
 import players.Player;
 import players.Slot;
-import players.Table;
 
 import java.awt.*;
 
@@ -105,6 +104,7 @@ public class GameScene
 		if (getTurnCont() == 0)
 		{
 			setTurnCont(1);
+			getEnemy().autoPlay();
 			getRoundButton().redrawRound("pass");
 		}else if(getTurnCont() == 1) {
 			setTurnCont(2);
@@ -112,10 +112,13 @@ public class GameScene
 		} else if (getTurnCont() == 2)
 		{
 			setTurnCont(0);
-			getPlayer().receiveEnergyBeforeRound(getRoundButton().getRound());
+			getPlayer().receiveEnergyBeforeRound(getRoundButton().getRound()+1);
+			getEnemy().receiveEnergyBeforeRound(getRoundButton().getRound()+1);
 			//remake before
 			getPlayer().getHand().addCard(1);
 			getPlayer().getHand().addCard(1);
+			getEnemy().getHand().addCard(1);
+			getEnemy().getHand().addCard(1);
 			//
 			getRoundButton().passRound();
 			getRoundButton().redrawRound("pass");

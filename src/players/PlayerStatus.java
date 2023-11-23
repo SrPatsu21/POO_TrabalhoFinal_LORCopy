@@ -6,20 +6,25 @@ import edu.princeton.cs.algs4.Draw;
 
 import java.awt.*;
 
-public class Energy
+public class PlayerStatus
 {
     private Button button;
     private int energy;
+    private int life;
     private Draw draw;
     private final int MAX_ENERGY;
+    private final int FULL_LIFE;
 
-    public Energy()
+
+    public PlayerStatus(Draw draw,int x0, int y0, int x1, int y1)
     {
-        MAX_ENERGY = 10;
+        this(draw,10 , 20, x0, y0, x1, y1);
     }
-    public Energy(Draw draw, int max_energy, int x0, int y0, int x1, int y1)
+
+    public PlayerStatus(Draw draw, int max_energy, int full_life,int x0, int y0, int x1, int y1)
     {
         MAX_ENERGY = max_energy;
+        FULL_LIFE = full_life;
         setDraw(draw);
         setButton( new Button(new Vec2(x0, y0), new Vec2(x1, y1)));
     }
@@ -47,6 +52,15 @@ public class Energy
     {
         this.draw = draw;
     }
+    public int getLife()
+    {
+        return life;
+    }
+    public void setLife(int life)
+    {
+        this.life = life;
+    }
+
     //add round
     public void addEnergy(int round)
     {
@@ -61,9 +75,10 @@ public class Energy
     }
     public void drawEnergy(Color energy_color)
     {
+        getDraw().setPenColor(Color.RED);
+        getDraw().text(getButton().getCenter().getX(), getButton().getCenter().getY()-10, ""+getLife());
         getDraw().setPenColor(energy_color);
-        getDraw().text(getButton().getCenter().getX(), getButton().getCenter().getY()*1.03, "Energy:");
-        getDraw().text(getButton().getCenter().getX(), getButton().getCenter().getY()*0.97, ""+getEnergy());
+        getDraw().text(getButton().getCenter().getX(), getButton().getCenter().getY()+10, "Energy:"+getEnergy());
         getDraw().line(getButton().getStart().getX(), getButton().getStart().getY(), getButton().getEnd().getX(), getButton().getStart().getY());
         getDraw().line(getButton().getStart().getX(), getButton().getEnd().getY(), getButton().getEnd().getX(), getButton().getEnd().getY());
         getDraw().line(getButton().getStart().getX(), getButton().getStart().getY(), getButton().getStart().getX(), getButton().getEnd().getY());

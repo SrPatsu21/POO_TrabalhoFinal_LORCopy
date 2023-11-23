@@ -12,9 +12,9 @@ public class Enemy extends Player
     }
 
     @Override
-    public void initEnergy()
+    public void initPlayerStatus()
     {
-        this.energy = new Energy(getDraw(), MAX_ENERGY, (int)(RESOLUTION_X*0.1), (int)(RESOLUTION_Y*0.9), (int)(RESOLUTION_X*0.2), (int)(RESOLUTION_Y*0.8));
+        this.playerStatus = new PlayerStatus(getDraw(), (int)(RESOLUTION_X*0.1), (int)(RESOLUTION_Y*0.9), (int)(RESOLUTION_X*0.2), (int)(RESOLUTION_Y*0.8));
     }
     @Override
     public void initTable()
@@ -31,5 +31,10 @@ public class Enemy extends Player
     {
         redrawTable();
         redrawEnergy();
+    }
+
+    public void autoPlay()
+    {
+
     }
 }
