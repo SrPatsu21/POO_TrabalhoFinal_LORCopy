@@ -12,7 +12,8 @@ public class Enemy extends Player
     }
 
     @Override
-    public void initEnergy() {
+    public void initEnergy()
+    {
         super.initEnergy();
     }
     public void initTable()

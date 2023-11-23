@@ -17,11 +17,11 @@ public class Energy
     {
         MAX_ENERGY = 10;
     }
-    public Energy(Draw draw,int resolution_x, int resolution_y, int max_energy)
+    public Energy(Draw draw, int max_energy, int x0, int y0, int x1, int y1)
     {
         MAX_ENERGY = max_energy;
         setDraw(draw);
-        setButton( new Button(new Vec2((int)(resolution_x*0.1), (int)(resolution_y*0.3)), new Vec2((int)(resolution_x*0.2), (int)(resolution_y*0.4  ))));
+        setButton( new Button(new Vec2(x0, y0), new Vec2(x1, y1)));
     }
     public Button getButton()
     {

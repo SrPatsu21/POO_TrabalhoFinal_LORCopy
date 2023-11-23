@@ -96,7 +96,7 @@ public class Player
     //Energy
     public void initEnergy()
     {
-        this.energy = new Energy(getDraw(), RESOLUTION_X, RESOLUTION_Y, MAX_ENERGY);
+        this.energy = new Energy(getDraw(), MAX_ENERGY, (int)(RESOLUTION_X*0.1), (int)(RESOLUTION_Y*0.3), (int)(RESOLUTION_X*0.2), (int)(RESOLUTION_Y*0.4  ));
     }
     public void redrawEnergy()
     {
