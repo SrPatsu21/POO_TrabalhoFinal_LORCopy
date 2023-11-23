@@ -4,6 +4,7 @@ import cards.Card;
 import dimension_controler.RoundButton;
 import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
+import players.Enemy;
 import players.Player;
 import players.Slot;
 import players.Table;
@@ -14,22 +15,20 @@ public class GameScene
 {
 	public final int RESOLUTION_X;
 	public final int RESOLUTION_Y;
-	public final Dimension DIMENSION;
 	public final Color BACKGROUND = Color.green;
 	public final Color HANDOCOLOR = Color.RED;
     private Draw draw;
     private Player player;
-    private Table enemy_table;
+	private Enemy enemy;
 	private Slot selected_card;
 	public static RoundButton round_button;
 	private int turn_cont = 0;
 
-    public GameScene(Draw draw, Dimension dimension, int resolution_x, int resolution_y){
-		this(draw, dimension, resolution_x, resolution_y, 0, 2);
+    public GameScene(Draw draw, int resolution_x, int resolution_y){
+		this(draw, resolution_x, resolution_y, 0, 2);
 	}
-    public GameScene(Draw draw, Dimension dimension, int resolution_x, int resolution_y, int turnN, int turn_cont)
+    public GameScene(Draw draw, int resolution_x, int resolution_y, int turnN, int turn_cont)
     {
-		this.DIMENSION = dimension;
 		this.RESOLUTION_X = resolution_x;
 		this.RESOLUTION_Y = resolution_y;
 		setDraw(draw);
@@ -40,15 +39,15 @@ public class GameScene
 				turnN, BACKGROUND)
 		);
 		setTurnCont(turn_cont);
-		setPlayer(new Player(draw, dimension, resolution_x, resolution_y, BACKGROUND, HANDOCOLOR));
+		setPlayer(new Player(draw, resolution_x, resolution_y, BACKGROUND, HANDOCOLOR));
 		getPlayer().initPlayer();
+		setEnemy(new Enemy(draw, resolution_x, resolution_y, BACKGROUND, HANDOCOLOR));
+		getEnemy().initPlayer();
 		roundController();
 
-		//make
-		enemy_table = new Table(draw, RESOLUTION_X, (int) (RESOLUTION_Y -(RESOLUTION_Y * 0.10)), (int) (RESOLUTION_Y - (RESOLUTION_Y * 0.35)));
-		getEnemyTable().drawTable(BACKGROUND, Color.BLACK);
 		//client
 		getPlayer().redraw();
+		getEnemy().redraw();
     }
 
 	//gettter setter
@@ -76,14 +75,6 @@ public class GameScene
 	{
 		this.player = player;
 	}
-	public Table getEnemyTable()
-	{
-		return enemy_table;
-	}
-	public void setEnemyTable(Table enemy_table)
-	{
-		this.enemy_table = enemy_table;
-	}
 	public Slot getSelectedCard()
 	{
 		return selected_card;
@@ -99,6 +90,14 @@ public class GameScene
 	public void setTurnCont(int turn_cont)
 	{
 		this.turn_cont = turn_cont;
+	}
+	public Enemy getEnemy()
+	{
+		return enemy;
+	}
+	public void setEnemy(Enemy enemy)
+	{
+		this.enemy = enemy;
 	}
 
 	//round

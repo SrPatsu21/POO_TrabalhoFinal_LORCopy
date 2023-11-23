@@ -93,7 +93,7 @@ public class Menu implements DrawListener
     		game.mousePressed(x, y);
     	}else 
     	{
-    		game = new GameScene(getDraw(), getScreenSize(), getResolutionX(), getResolutionY());
+    		game = new GameScene(getDraw(), getResolutionX(), getResolutionY());
 			System.out.println("new game");
     	}
     }

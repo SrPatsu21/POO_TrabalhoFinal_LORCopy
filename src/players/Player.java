@@ -8,7 +8,6 @@ public class Player
 {
     public final int RESOLUTION_X;
     public final int RESOLUTION_Y;
-    public final Dimension DIMENSION;
     public final Color BACKGROUND;
     public final Color HANDOCOLOR;
     public final int MAX_ENERGY = 10;
@@ -18,9 +17,8 @@ public class Player
     protected Draw draw;
     protected boolean still_play;
 
-    public Player(Draw draw, Dimension dimension, int resolution_x, int resolution_y, Color background, Color handcolor)
+    public Player(Draw draw, int resolution_x, int resolution_y, Color background, Color handcolor)
     {
-        this.DIMENSION = dimension;
         this.RESOLUTION_X = resolution_x;
         this.RESOLUTION_Y = resolution_y;
         this.BACKGROUND = background;
@@ -77,7 +75,7 @@ public class Player
     //Table
     public void initTable()
     {
-        this.table = new Table(getDraw(), RESOLUTION_X, (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.70)), (int)(RESOLUTION_Y - (RESOLUTION_Y * 0.45)));
+        this.table = new Table(getDraw(), RESOLUTION_X, (int)(RESOLUTION_Y*0.3), (int)(RESOLUTION_Y*0.55));
     }
     public void redrawTable()
     {
@@ -96,7 +94,7 @@ public class Player
     //Energy
     public void initEnergy()
     {
-        this.energy = new Energy(getDraw(), MAX_ENERGY, (int)(RESOLUTION_X*0.1), (int)(RESOLUTION_Y*0.3), (int)(RESOLUTION_X*0.2), (int)(RESOLUTION_Y*0.4  ));
+        this.energy = new Energy(getDraw(), MAX_ENERGY, (int)(RESOLUTION_X*0.1), (int)(RESOLUTION_Y*0.3), (int)(RESOLUTION_X*0.2), (int)(RESOLUTION_Y*0.4));
     }
     public void redrawEnergy()
     {
