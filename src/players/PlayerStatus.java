@@ -13,8 +13,6 @@ public class PlayerStatus
     private int life;
     private Draw draw;
     private final int MAX_ENERGY;
-    private final int FULL_LIFE;
-
 
     public PlayerStatus(Draw draw,int x0, int y0, int x1, int y1)
     {
@@ -24,7 +22,7 @@ public class PlayerStatus
     public PlayerStatus(Draw draw, int max_energy, int full_life,int x0, int y0, int x1, int y1)
     {
         MAX_ENERGY = max_energy;
-        FULL_LIFE = full_life;
+        setLife(full_life);
         setDraw(draw);
         setButton( new Button(new Vec2(x0, y0), new Vec2(x1, y1)));
     }
@@ -61,6 +59,15 @@ public class PlayerStatus
         this.life = life;
     }
 
+    //receive damage
+    public void receiveDamage(int damage)
+    {
+        setLife(Math.max(getLife()-damage, 0));
+    }
+    public void healLife(int heal)
+    {
+        setLife(Math.max(getLife()+heal, 0));
+    }
     //add round
     public void addEnergy(int round)
     {

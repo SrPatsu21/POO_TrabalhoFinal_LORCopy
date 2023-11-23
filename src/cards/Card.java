@@ -192,9 +192,9 @@ public class Card
 		draw.text(start.getX()+ diffx/2, start.getY()+diffy/2, getDescription());
 		//life
 		draw.setPenColor(Color.RED);
-		draw.text(start.getX()+ diffx*0.05, end.getY()-diffy*0.05, String.valueOf((int)getActualLife()));
+		draw.text(start.getX()+ diffx*0.1, end.getY()-diffy*0.1, String.valueOf((int)getActualLife()));
 		//damage
 		draw.setPenColor(Color.GREEN);
-		draw.text(start.getX()+ diffx*0.95, end.getY()-diffy*0.05, String.valueOf((int)getActualDamage()));
+		draw.text(start.getX()+ diffx*0.9, end.getY()-diffy*0.1, String.valueOf((int)getActualDamage()));
 	}
 }
