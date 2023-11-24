@@ -202,13 +202,15 @@ public class Card
 		draw.line(start.getX(), start.getY(), start.getX(),  end.getY());
 		draw.line(end.getX(), start.getY(), end.getX(),  end.getY());
 		//text
-		draw.text(start.getX()+ diffx/2, start.getY()+diffy/2, getDescription());
+		String [] split = getDescription().split("\n");
+		draw.text(start.getX()+ diffx*0.5, start.getY()+diffy*0.57, split[0]);
+		draw.text(start.getX()+ diffx*0.5, start.getY()+diffy*0.43, split[1]);
 		//life
 		draw.setPenColor(Color.RED);
-		draw.text(start.getX()+ diffx*0.1, end.getY()-diffy*0.1, String.valueOf((int)getActualLife()));
+		draw.text(start.getX()+ diffx*0.9, end.getY()-diffy*0.1, String.valueOf((int)getActualLife()));
 		//damage
 		draw.setPenColor(Color.GREEN);
-		draw.text(start.getX()+ diffx*0.9, end.getY()-diffy*0.1, String.valueOf((int)getActualDamage()));
+		draw.text(start.getX()+ diffx*0.1, end.getY()-diffy*0.1, String.valueOf((int)getActualDamage()));
 		//energy cost
 		draw.setPenColor(Color.ORANGE);
 		draw.text(start.getX()+ diffx*0.5, end.getY()-diffy*0.9, "cost:"+String.valueOf((int)getEnergy_cost()));

@@ -60,202 +60,186 @@ public class GameScene
     {
 		return draw;
 	}
-	public void setDraw(Draw draw)
-	{
+
+	public void setDraw(Draw draw) {
 		this.draw = draw;
 	}
-	public static RoundButton getRoundButton()
-	{
+
+	public static RoundButton getRoundButton() {
 		return round_button;
 	}
-	public static void setRoundButton(RoundButton round_button)
-	{
+
+	public static void setRoundButton(RoundButton round_button) {
 		GameScene.round_button = round_button;
 	}
-	public Player getPlayer()
-	{
+
+	public Player getPlayer() {
 		return player;
 	}
-	public void setPlayer(Player player)
-	{
+
+	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	public int getTurnCont()
-	{
+
+	public int getTurnCont() {
 		return turn_cont;
 	}
-	public void setTurnCont(int turn_cont)
-	{
+
+	public void setTurnCont(int turn_cont) {
 		this.turn_cont = turn_cont;
 	}
-	public Enemy getEnemy()
-	{
+
+	public Enemy getEnemy() {
 		return enemy;
 	}
-	public void setEnemy(Enemy enemy)
-	{
+
+	public void setEnemy(Enemy enemy) {
 		this.enemy = enemy;
 	}
-	public Fingth getFight()
-	{
+
+	public Fingth getFight() {
 		return fight;
 	}
-	public void setFight(Fingth fight)
-	{
+
+	public void setFight(Fingth fight) {
 		this.fight = fight;
 	}
-	public Slot getSelectedHandCard()
-	{
+
+	public Slot getSelectedHandCard() {
 		return selected_hand_card;
 	}
-	public void setSelectedHandCard(Slot selected_hand_card)
-	{
+
+	public void setSelectedHandCard(Slot selected_hand_card) {
 		this.selected_hand_card = selected_hand_card;
 	}
-	public Slot getSelectedTableCard()
-	{
+
+	public Slot getSelectedTableCard() {
 		return selected_table_card;
 	}
-	public void setSelectedTableCard(Slot selected_table_card)
-	{
+
+	public void setSelectedTableCard(Slot selected_table_card) {
 		this.selected_table_card = selected_table_card;
 	}
-	public boolean isPlay_fist()
-	{
+
+	public boolean isPlay_fist() {
 		return play_fist;
 	}
-	public void setPlay_fist(boolean play_fist)
-	{
+
+	public void setPlay_fist(boolean play_fist) {
 		this.play_fist = play_fist;
 	}
 
 	//round
 	public void roundController() {
-		if (getTurnCont() == 0)
-		{
+		if (getTurnCont() == 0) {
 			setTurnCont(1);
 			getEnemy().autoPlay();
 			getRoundButton().redrawRound("pass");
 			//AI
-			if(isPlay_fist())
-			{
+			if(isPlay_fist()) {
 				getEnemy().autoPlay();
 			}
-		}
-		else if(getTurnCont() == 1)
-		{
+		} else if(getTurnCont() == 1) {
 			setTurnCont(2);
 			getRoundButton().redrawRound("fight");
 			//AI
 			setPlay_fist(!isPlay_fist());
-		}
-		else if (getTurnCont() == 2)
-		{
+		} else if (getTurnCont() == 2) {
 			setTurnCont(0);
 			getFight().setPlayer(getPlayer());
 			getFight().setEnemy(getEnemy());
 			getFight().fight();
-			if (getPlayer().getPlayerStatus().getLife() == 0 || getEnemy().getPlayerStatus().getLife() == 0)
-			{
+			if (getPlayer().getPlayerStatus().getLife() == 0 || getEnemy().getPlayerStatus().getLife() == 0) {
 				this.game_stop = true;
 				redraw();
-			}else
-			{
+			}else {
 				//energy
 				getPlayer().receiveEnergyBeforeRound(getRoundButton().getRound() + 1);
 				getEnemy().receiveEnergyBeforeRound(getRoundButton().getRound() + 1);
 				//cards
 				getPlayer().getHand().verifySlots();
-				getPlayer().getHand().addCard();
 				getEnemy().getHand().verifySlots();
-//				getEnemy().getHand().addCard();
+				getPlayer().getHand().addCard();
+				getEnemy().getHand().addCard();
+				if (getRoundButton().getRound() >= 5)
+				{
+					getPlayer().getHand().addCard();
+					getEnemy().getHand().addCard();
+				}
 				//button
 				getRoundButton().passRound();
 				getRoundButton().redrawRound("pass");
 				//AI
-				if (!isPlay_fist())
-				{
+				if (!isPlay_fist()) {
 					getEnemy().autoPlay();
 				}
 			}
 		}
 	}
-	public void endGameMessage()
-	{
-		if (getPlayer().getPlayerStatus().getLife() == 0 || getEnemy().getPlayerStatus().getLife() == 0)
-		{
+
+	public void endGameMessage() {
+		if (getPlayer().getPlayerStatus().getLife() == 0 || getEnemy().getPlayerStatus().getLife() == 0) {
 			getDraw().setPenColor(Draw.BLUE);
-			if(getPlayer().getPlayerStatus().getLife() == 0 && getEnemy().getPlayerStatus().getLife() == 0)
-			{
+			if(getPlayer().getPlayerStatus().getLife() == 0 && getEnemy().getPlayerStatus().getLife() == 0) {
 				getDraw().text(RESOLUTION_X*0.5, RESOLUTION_Y*0.6, "I could say u lost anyway", 25);
-			} else if (getEnemy().getPlayerStatus().getLife() == 0)
-			{
+			} else if (getEnemy().getPlayerStatus().getLife() == 0) {
 				getDraw().text(RESOLUTION_X*0.5, RESOLUTION_Y*0.6, "U WIN", 25);
-			}else if (getPlayer().getPlayerStatus().getLife() == 0)
-			{
+			}else if (getPlayer().getPlayerStatus().getLife() == 0) {
 				getDraw().text(RESOLUTION_X*0.5, RESOLUTION_Y*0.6, "U LOST to a shito AI", 25);
 			}
 			getDraw().show();
 		}
 	}
-	public void resetSelectedCardsToNull()
-	{
+
+	public void resetSelectedCardsToNull() {
 		setSelectedTableCard(null);
 		setSelectedHandCard(null);
 	}
-	public void swapSelectedCardsOnTable(int i)
-	{
+
+	public void swapSelectedCardsOnTable(int i) {
 		Card aux = getSelectedTableCard().getCard();
 		getSelectedTableCard().setCard(getPlayer().getTable().getSlotPos()[i].getCard());
 		getPlayer().getTable().getSlotPos()[i].setCard(aux);
 	}
+
 	//clear draw
-	public void clearArea(Vec2 start, Vec2 end, Color color)
-	{
+	public void clearArea(Vec2 start, Vec2 end, Color color) {
 		getDraw().setPenColor(color);
 		getDraw().filledPolygon(new double[]{start.getX(), end.getX()}, new double[]{start.getY(), end.getY()});
 	}
-	public void redraw()
-	{
+
+	public void redraw() {
 		getPlayer().redraw();
 		getEnemy().redraw();
-		if (this.game_stop)
-		{
+		if (this.game_stop) {
 			endGameMessage();
 		}
 	}
+
 	//mouse events
     public void mousePressed(double x, double y)
     {
-		if (!game_stop)
-		{
+		if (!game_stop) {
 			//table button
 			if (getPlayer().getTable().getButton().isInside((int)x, (int)y)) {
 				for(int i = 0; i < getPlayer().getTable().SLOTSN; i++) {
 					if(getPlayer().getTable().getSlotPos()[i].getButton().isInside(x, y)) {
-						if(getSelectedTableCard() != null)
-						{
+						if(getSelectedTableCard() != null) {
 							swapSelectedCardsOnTable(i);
 							resetSelectedCardsToNull();
 							getPlayer().getHand().verifySlots();
 							redraw();
-						}
-						else if(getSelectedHandCard() != null)
-						{
-							if (getPlayer().getPlayerStatus().getEnergy() >= getSelectedHandCard().getCard().getEnergy_cost() && getPlayer().getTable().getSlotPos()[i].getCard() == null)
-							{
+						} else if(getSelectedHandCard() != null) {
+							if (getPlayer().getPlayerStatus().getEnergy() >= getSelectedHandCard().getCard().getEnergy_cost() && getPlayer().getTable().getSlotPos()[i].getCard() == null) {
 								getPlayer().getPlayerStatus().removeEnergy(getSelectedHandCard().getCard().getEnergy_cost());
 								getPlayer().getTable().getSlotPos()[i].setCard(getSelectedHandCard().getCard());
 								getSelectedHandCard().setCard(null);
 							}
 							resetSelectedCardsToNull();
 							redraw();
-						}
-						else
-						{
+						} else {
 							setSelectedTableCard(getPlayer().getTable().getSlotPos()[i]);
-							if (getSelectedTableCard().getCard() != null)
-							{
+							if (getSelectedTableCard().getCard() != null) {
 								getPlayer().getTable().redrawOneCard(getPlayer().getTable().getSlotPos()[i], Color.YELLOW);
 							}
 						}
@@ -263,22 +247,16 @@ public class GameScene
 				}
 			}
 			//hand button
-			else if (getPlayer().getHand().getHand_pos().isInside((int)x, (int)y))
-			{
+			else if (getPlayer().getHand().getHand_pos().isInside((int)x, (int)y)) {
 
-				if (getSelectedTableCard() != null)
-				{
+				if (getSelectedTableCard() != null) {
 					redraw();
 					resetSelectedCardsToNull();
-				}
-				else if (getTurnCont() != 2)
-				{
+				} else if (getTurnCont() != 2) {
 					for(int i = 0; i < getPlayer().getHand().HAND_SIZE; i++) {
-						if(getPlayer().getHand().getSlot()[i].getButton().isInside(x, y))
-						{
+						if(getPlayer().getHand().getSlot()[i].getButton().isInside(x, y)) {
 							redraw();
-							if (getPlayer().getHand().getSlot()[i].getCard() != null)
-							{
+							if (getPlayer().getHand().getSlot()[i].getCard() != null) {
 								setSelectedHandCard(getPlayer().getHand().getSlot()[i]);
 								getPlayer().getHand().redrawOneCard(getSelectedHandCard(), Color.YELLOW);
 							}
@@ -287,15 +265,13 @@ public class GameScene
 				}
 			}
 			//button round
-			else if(getRoundButton().isInside((int)x, (int)y))
-			{
+			else if(getRoundButton().isInside((int)x, (int)y)) {
 				roundController();
 				resetSelectedCardsToNull();
 				redraw();
 			}
-		}else
-		{
-		//call a new screen to a new game or load
+		}else {
+			//call a new screen to a new game or load
 		}
 	}
 }
