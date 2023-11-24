@@ -94,7 +94,7 @@ public class Hand
         }
         setCardsOnHand(k);
     }
-    public void addCard(int id)
+    public void addCard()
     {
         if (cards_on_hand < HAND_SIZE)
         {
@@ -104,7 +104,7 @@ public class Hand
                 {
                     if (getSlot()[i].getCard() == null)
                     {
-                        this.slot[i].setCard(CARD_GENERATOR.getCard(id));
+                        this.slot[i].setCard(CARD_GENERATOR.takeRandCard());
                         this.cards_on_hand++;
                         i = HAND_SIZE;
                     }

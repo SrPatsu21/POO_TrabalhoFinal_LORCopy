@@ -7,10 +7,13 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
 public class CardGenerator 
 {
 	private JSONArray json_array;
+	private static Random rand = new Random();
+	public final int SIZE_OF_JSON;
 	
 	public CardGenerator() 
 	{
@@ -25,13 +28,18 @@ public class CardGenerator
 			e.printStackTrace();
 			System.out.println(e);
 		}
+		SIZE_OF_JSON = json_array.size();
+		System.out.println(SIZE_OF_JSON);
+
 	}
-	
-	public Card getCard(int id)
+	public Card takeRandCard()
+	{
+		return takeCard(rand.nextInt(SIZE_OF_JSON));
+	}
+	public Card takeCard(int id)
 	{
 		if(json_array != null) 
 		{
-			//	public Card(int id, byte type, byte full_life, byte life, byte damage, byte energy_cost, String description)
 			JSONObject json = (JSONObject) json_array.get(id);
 			return new Card(id, Byte.parseByte(json.get("type").toString()), Byte.parseByte(json.get("full_life").toString()),
 					Byte.parseByte(json.get("life").toString()), Byte.parseByte(json.get("damage").toString()),

@@ -165,9 +165,9 @@ public class GameScene
 				getEnemy().receiveEnergyBeforeRound(getRoundButton().getRound() + 1);
 				//remake before
 				getPlayer().getHand().verifySlots();
-				getPlayer().getHand().addCard(1);
+				getPlayer().getHand().addCard();
 				getEnemy().getHand().verifySlots();
-				getEnemy().getHand().addCard(1);
+				getEnemy().getHand().addCard();
 				//
 				getRoundButton().passRound();
 				getRoundButton().redrawRound("pass");
