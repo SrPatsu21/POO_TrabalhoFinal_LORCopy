@@ -10,8 +10,8 @@ public class Table
 {
     private Draw draw;
     private CardGenerator card_gen = new CardGenerator();
-    public final int SLOTSN = 6;
-    public final int COLSN = 16;
+    public static final int SLOTSN = 6;
+    public static final int COLSN = 16;
     public final int COLS_SIZE;
     public final int MARGE;
     private Slot [] slot_pos = new Slot[SLOTSN];
@@ -57,9 +57,24 @@ public class Table
 	}
 
 	//position on map
-	private void defineSlotPos() {
+	private void defineSlotPos()
+	{
 		for(int pos = 0; pos < SLOTSN; pos++) {
 			getSlotPos()[pos] = new Slot(MARGE+(pos*COLS_SIZE), getButton().getStart().getY(), MARGE+((pos+1)*COLS_SIZE), getButton().getEnd().getY());
+		}
+	}
+	//remove dead
+	public void removeDeadCards()
+	{
+		for (int i = 0; i < SLOTSN; i++)
+		{
+			if (getSlotPos()[i].getCard() != null)
+			{
+				if (getSlotPos()[i].getCard().getLife() < 0)
+				{
+					getSlotPos()[i].setCard(null);
+				}
+			}
 		}
 	}
 	//client

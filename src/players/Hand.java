@@ -10,14 +10,14 @@ import java.awt.*;
 
 public class Hand
 {
-    public final int HAND_SIZE = 10;
+    public static final int HAND_SIZE = 10;
     private Slot[] slot = new Slot [HAND_SIZE];
     private Draw draw;
     private Button hand_pos;
     private int cards_on_hand = 0;
     public final int COLS_SIZE;
     public final int MARGE;
-    public final int COLSN = 20;
+    public static final int COLSN = 20;
     private final CardGenerator CARD_GENERATOR = new CardGenerator();
 
     public Hand(Draw draw,int resolution_x, int y0, int y1)
@@ -86,7 +86,10 @@ public class Hand
         {
             if (getSlot()[i] != null)
             {
-                k++;
+                if (getSlot()[i].getCard() != null)
+                {
+                    k++;
+                }
             }
         }
         setCardsOnHand(k);

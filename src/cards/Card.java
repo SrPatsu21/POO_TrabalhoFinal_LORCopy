@@ -162,15 +162,18 @@ public class Card
 
 	//receive damage
 	public byte receiveDamage(int damage) {
-		if(this.life + this.life_buff < damage) {
+
+		if(damage < this.life_buff) {
+			this.life_buff -= damage;
+		}else {
+			this.life -= damage - this.life_buff;
+		}
+		if(this.life + this.life_buff < damage)
+		{
 			this.kill();
 			return 0;
-		}else {
-			if(damage < this.life_buff) {
-				this.life_buff -= damage;
-			}else {
-				this.life -= damage - this.life_buff;
-			}
+		}else
+		{
 			return 1;
 		}
 	}

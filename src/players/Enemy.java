@@ -35,6 +35,25 @@ public class Enemy extends Player
 
     public void autoPlay()
     {
-
+        for (int i = 0; i < Hand.HAND_SIZE; i++)
+        {
+            if (getHand().getSlot()[i].getCard() != null)
+            {
+                if (getHand().getSlot()[i].getCard().getEnergy_cost() <= getPlayerStatus().getEnergy())
+                {
+                    getHand().getSlot()[i].getCard();
+                    for (int k = 0; k < Table.SLOTSN; k++)
+                    {
+                        if (getTable().getSlotPos()[k].getCard() == null)
+                        {
+                            getTable().getSlotPos()[k].setCard(getHand().getSlot()[i].getCard());
+                            getPlayerStatus().removeEnergy(getHand().getSlot()[i].getCard().getEnergy_cost());
+                            getHand().getSlot()[i].setCard(null);
+                            k = Table.SLOTSN;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

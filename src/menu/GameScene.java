@@ -26,6 +26,7 @@ public class GameScene
 	private int turn_cont = 0;
 	private Fingth fight;
 	private boolean game_stop = false;
+	private boolean play_fist = false;
 
     public GameScene(Draw draw, int resolution_x, int resolution_y){
 		this(draw, resolution_x, resolution_y, 0, 2);
@@ -103,7 +104,6 @@ public class GameScene
 	{
 		this.fight = fight;
 	}
-
 	public Slot getSelectedHandCard()
 	{
 		return selected_hand_card;
@@ -120,6 +120,14 @@ public class GameScene
 	{
 		this.selected_table_card = selected_table_card;
 	}
+	public boolean isPlay_fist()
+	{
+		return play_fist;
+	}
+	public void setPlay_fist(boolean play_fist)
+	{
+		this.play_fist = play_fist;
+	}
 
 	//round
 	public void roundController() {
@@ -128,30 +136,45 @@ public class GameScene
 			setTurnCont(1);
 			getEnemy().autoPlay();
 			getRoundButton().redrawRound("pass");
-		}else if(getTurnCont() == 1) {
+			if(isPlay_fist())
+			{
+				getEnemy().autoPlay();
+			}
+		}
+		else if(getTurnCont() == 1)
+		{
 			setTurnCont(2);
 			getFight().setPlayer(getPlayer());
 			getFight().setEnemy(getEnemy());
-			getFight().fight();
 			getRoundButton().redrawRound("fight");
-
-		} else if (getTurnCont() == 2)
+			setPlay_fist(!isPlay_fist());
+		}
+		else if (getTurnCont() == 2)
 		{
 			if (getPlayer().getPlayerStatus().getLife() == 0 || getEnemy().getPlayerStatus().getLife() == 0)
 			{
 				this.game_stop = true;
-			}else {
+			}else
+			{
+
 				setTurnCont(0);
+				getFight().setPlayer(getPlayer());
+				getFight().setEnemy(getEnemy());
+				getFight().fight();
 				getPlayer().receiveEnergyBeforeRound(getRoundButton().getRound() + 1);
 				getEnemy().receiveEnergyBeforeRound(getRoundButton().getRound() + 1);
 				//remake before
+				getPlayer().getHand().verifySlots();
 				getPlayer().getHand().addCard(1);
-				getPlayer().getHand().addCard(1);
-				getEnemy().getHand().addCard(1);
+				getEnemy().getHand().verifySlots();
 				getEnemy().getHand().addCard(1);
 				//
 				getRoundButton().passRound();
 				getRoundButton().redrawRound("pass");
+				if (!isPlay_fist())
+				{
+					getEnemy().autoPlay();
+				}
 			}
 		}
 	}

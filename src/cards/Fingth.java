@@ -1,11 +1,15 @@
 package cards;
 
 import players.Player;
+import players.Slot;
+import players.Table;
 
 public class Fingth
 {
     private Player player;
     private Player enemy;
+    private Slot[] p_slot = new Slot[Table.SLOTSN];
+    private Slot[] e_slot = new Slot[Table.SLOTSN];
 
     public Fingth()
     {
@@ -37,51 +41,94 @@ public class Fingth
     {
         return player.getTable().getSlotPos()[i].getCard();
     }
+    public Slot[] getP_slot()
+    {
+        return p_slot;
+    }
+    public void setP_slot(Slot[] p_slot)
+    {
+        this.p_slot = p_slot;
+    }
+    public Slot[] getE_slot()
+    {
+        return e_slot;
+    }
+    public void setE_slot(Slot[] e_slot)
+    {
+        this.e_slot = e_slot;
+    }
+
     //receiving damage
     public void cardReceiveDamage(Card card, int damage)
     {
-        int life = getPlayer().getPlayerStatus().getLife();
-        if (card.getActualLife() < damage)
+        card.receiveDamage(damage);
+    }
+    public void arrangeSlots()
+    {
+        int p_cont = 0, e_cont = 0;
+        for (int i = 0; i < Table.SLOTSN; i++)
         {
-            card.receiveDamage(damage);
-        }else
-        {
-            card.kill();
+            this.p_slot[i]= new Slot(0,0,0,0);
+            this.e_slot[i]= new Slot(0,0,0,0);
+
+            if (getCard(getPlayer(), i) != null)
+            {
+                this.p_slot[p_cont].setCard(getCard(getPlayer(), i));
+                p_cont++;
+            }
+            if (getCard(getEnemy(), i) != null)
+            {
+                this.e_slot[e_cont].setCard(getCard(getEnemy(), i));
+                e_cont++;
+            }
         }
+
     }
     //combat
     public void fight()
     {
-        for (int i = 0; i < getPlayer().getTable().SLOTSN; i++)
+        arrangeSlots();
+        for (int i = 0; i < Table.SLOTSN; i++)
         {
             int player_d = 0;
             int enemy_d = 0;
             //set damage
-            if (getCard(getPlayer(), i) != null)
+            if (getP_slot()[i] != null)
             {
-                player_d = getCard(getPlayer(), i).getActualDamage();
+                if (getP_slot()[i].getCard() != null)
+                {
+                    player_d = getP_slot()[i].getCard().getActualDamage();
+                }
             }
-            if (getCard(getEnemy(), i) != null)
+
+            if (getE_slot()[i] != null)
             {
-                enemy_d = getCard(getEnemy(), i).getActualDamage();
+                if (getE_slot()[i].getCard() != null)
+                {
+                    enemy_d = getE_slot()[i].getCard().getActualDamage();
+                }
             }
             //receiving
             //player
-            if (getCard(getPlayer(), i) != null)
+            if (getP_slot()[i].getCard() != null)
             {
-                cardReceiveDamage(getCard(getPlayer(), i), enemy_d);
-            }else
+                cardReceiveDamage(getP_slot()[i].getCard(), enemy_d);
+            }
+            else
             {
                 getPlayer().getPlayerStatus().receiveDamage(enemy_d);
             }
             //enemy
-            if (getCard(getEnemy(), i) != null)
+            if (getE_slot()[i].getCard()!= null)
             {
-                cardReceiveDamage(getCard(getEnemy(), i), player_d);
-            }else
+                cardReceiveDamage(getE_slot()[i].getCard(), player_d);
+            }
+            else
             {
                 getEnemy().getPlayerStatus().receiveDamage(player_d);
             }
         }
+        getPlayer().getTable().removeDeadCards();
+        getEnemy().getTable().removeDeadCards();
     }
 }
