@@ -1,7 +1,7 @@
 package menu;
 
 import cards.Card;
-import cards.Fingth;
+import cards.Fight;
 import dimension_controler.RoundButton;
 import dimension_controler.Vec2;
 import edu.princeton.cs.algs4.Draw;
@@ -24,7 +24,7 @@ public class GameScene
 	private Slot selected_table_card;
 	public static RoundButton round_button;
 	private int turn_cont = 0;
-	private Fingth fight;
+	private Fight fight;
 	private boolean game_stop = false;
 	private boolean play_fist = false;
 
@@ -47,7 +47,7 @@ public class GameScene
 		getPlayer().initPlayer();
 		setEnemy(new Enemy(draw, resolution_x, resolution_y, BACKGROUND, HANDOCOLOR));
 		getEnemy().initPlayer();
-		setFight( new Fingth());
+		setFight( new Fight());
 		roundController();
 
 		//client
@@ -97,11 +97,11 @@ public class GameScene
 		this.enemy = enemy;
 	}
 
-	public Fingth getFight() {
+	public Fight getFight() {
 		return fight;
 	}
 
-	public void setFight(Fingth fight) {
+	public void setFight(Fight fight) {
 		this.fight = fight;
 	}
 

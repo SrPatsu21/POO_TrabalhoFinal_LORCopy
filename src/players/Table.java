@@ -9,7 +9,6 @@ import edu.princeton.cs.algs4.Draw;
 public class Table 
 {
     private Draw draw;
-    private CardGenerator card_gen = new CardGenerator();
     public static final int SLOTSN = 6;
     public static final int COLSN = 16;
     public final int COLS_SIZE;
@@ -24,7 +23,7 @@ public class Table
 		defineSlotPos();
 	}
 
-	Table(Draw draw, int resolution_x)
+	public Table(Draw draw, int resolution_x)
 	{
 		setDraw(draw);
 		COLS_SIZE = resolution_x/COLSN;

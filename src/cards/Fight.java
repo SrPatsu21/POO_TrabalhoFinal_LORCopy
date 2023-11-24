@@ -4,18 +4,18 @@ import players.Player;
 import players.Slot;
 import players.Table;
 
-public class Fingth
+public class Fight
 {
     private Player player;
     private Player enemy;
     private Slot[] p_slot = new Slot[Table.SLOTSN];
     private Slot[] e_slot = new Slot[Table.SLOTSN];
 
-    public Fingth()
+    public Fight()
     {
 
     }
-    public Fingth(Player player, Player enemy)
+    public Fight(Player player, Player enemy)
     {
         setPlayer(player);
         setEnemy(enemy);
