@@ -70,7 +70,7 @@ public class Table
 		{
 			if (getSlotPos()[i].getCard() != null)
 			{
-				if (getSlotPos()[i].getCard().getLife() < 0)
+				if (getSlotPos()[i].getCard().getLife() <= 0)
 				{
 					getSlotPos()[i].setCard(null);
 				}
