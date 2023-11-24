@@ -29,8 +29,6 @@ public class CardGenerator
 			System.out.println(e);
 		}
 		SIZE_OF_JSON = json_array.size();
-		System.out.println(SIZE_OF_JSON);
-
 	}
 	public Card takeRandCard()
 	{

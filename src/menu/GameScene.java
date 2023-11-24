@@ -136,6 +136,7 @@ public class GameScene
 			setTurnCont(1);
 			getEnemy().autoPlay();
 			getRoundButton().redrawRound("pass");
+			//AI
 			if(isPlay_fist())
 			{
 				getEnemy().autoPlay();
@@ -144,33 +145,34 @@ public class GameScene
 		else if(getTurnCont() == 1)
 		{
 			setTurnCont(2);
-			getFight().setPlayer(getPlayer());
-			getFight().setEnemy(getEnemy());
 			getRoundButton().redrawRound("fight");
+			//AI
 			setPlay_fist(!isPlay_fist());
 		}
 		else if (getTurnCont() == 2)
 		{
+			setTurnCont(0);
+			getFight().setPlayer(getPlayer());
+			getFight().setEnemy(getEnemy());
+			getFight().fight();
 			if (getPlayer().getPlayerStatus().getLife() == 0 || getEnemy().getPlayerStatus().getLife() == 0)
 			{
 				this.game_stop = true;
+				redraw();
 			}else
 			{
-
-				setTurnCont(0);
-				getFight().setPlayer(getPlayer());
-				getFight().setEnemy(getEnemy());
-				getFight().fight();
+				//energy
 				getPlayer().receiveEnergyBeforeRound(getRoundButton().getRound() + 1);
 				getEnemy().receiveEnergyBeforeRound(getRoundButton().getRound() + 1);
-				//remake before
+				//cards
 				getPlayer().getHand().verifySlots();
 				getPlayer().getHand().addCard();
 				getEnemy().getHand().verifySlots();
-				getEnemy().getHand().addCard();
-				//
+//				getEnemy().getHand().addCard();
+				//button
 				getRoundButton().passRound();
 				getRoundButton().redrawRound("pass");
+				//AI
 				if (!isPlay_fist())
 				{
 					getEnemy().autoPlay();
@@ -185,13 +187,13 @@ public class GameScene
 			getDraw().setPenColor(Draw.BLUE);
 			if(getPlayer().getPlayerStatus().getLife() == 0 && getEnemy().getPlayerStatus().getLife() == 0)
 			{
-				getDraw().text(RESOLUTION_X/2, RESOLUTION_Y/2, "I could say u lost anyway", 25);
+				getDraw().text(RESOLUTION_X*0.5, RESOLUTION_Y*0.6, "I could say u lost anyway", 25);
 			} else if (getEnemy().getPlayerStatus().getLife() == 0)
 			{
-				getDraw().text(RESOLUTION_X/2, RESOLUTION_Y/2, "U WIN", 25);
+				getDraw().text(RESOLUTION_X*0.5, RESOLUTION_Y*0.6, "U WIN", 25);
 			}else if (getPlayer().getPlayerStatus().getLife() == 0)
 			{
-				getDraw().text(RESOLUTION_X/2, RESOLUTION_Y/2, "U LOST to a shito AI", 25);
+				getDraw().text(RESOLUTION_X*0.5, RESOLUTION_Y*0.6, "U LOST to a shito AI", 25);
 			}
 			getDraw().show();
 		}
